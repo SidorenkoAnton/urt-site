@@ -1,0 +1,475 @@
+---
+import Logo from "./Logo.astro";
+---
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ЮЖРЕГИОНТЕЛЕКОМ — Строительство ВОЛС</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Onest:wght@700;900&family=Golos+Text:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-primary: #0A1628;
+            --bg-card: #0F2140;
+            --border: #142D54;
+            --text-primary: #FFFFFF;
+            --text-secondary: #B8E0FF;
+            --logo-dark: #004caa;
+            --logo-mid: #0466ba;
+            --logo-light: #0f82c5;
+            --logo-lighter: #219dd2;
+            --accent-amber: #FFB347;
+            --accent-amber-hover: #FFC875;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Golos Text', sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Фоновый паттерн из логотипа */
+        .hero-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 0;
+        }
+
+        .logo-pattern {
+            position: absolute;
+            top: 50%;
+            right: -5%;
+            transform: translateY(-50%);
+            width: 900px;
+            height: 900px;
+            opacity: 0.03;
+            animation: rotate 80s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: translateY(-50%) rotate(0deg); }
+            to { transform: translateY(-50%) rotate(360deg); }
+        }
+
+        /* Светящиеся линии */
+        .glow-line {
+            position: absolute;
+            height: 2px;
+            background: linear-gradient(90deg, 
+                transparent 0%, 
+                var(--logo-lighter) 50%, 
+                transparent 100%);
+            opacity: 0.3;
+            animation: pulse 3s ease-in-out infinite;
+        }
+
+        .glow-line-1 {
+            top: 20%;
+            left: 0;
+            width: 40%;
+            animation-delay: 0s;
+        }
+
+        .glow-line-2 {
+            top: 60%;
+            right: 0;
+            width: 35%;
+            animation-delay: 1s;
+        }
+
+        .glow-line-3 {
+            top: 40%;
+            left: 20%;
+            width: 30%;
+            animation-delay: 2s;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.2; }
+            50% { opacity: 0.5; }
+        }
+
+        /* Навигация */
+        .navbar {
+            position: relative;
+            z-index: 10;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem 5%;
+            max-width: 1440px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-family: 'Onest', sans-serif;
+            font-weight: 900;
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            width: auto;
+            height: 56px;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+
+        .nav-menu a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.3s;
+        }
+
+        .nav-menu a:hover {
+            color: var(--logo-lighter);
+        }
+
+        .nav-lang {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .nav-lang:hover {
+            color: var(--logo-lighter);
+        }
+
+        /* Hero контент */
+        .hero {
+            position: relative;
+            z-index: 1;
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 4rem 5% 6rem;
+            min-height: calc(100vh - 100px);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .hero-content {
+            max-width: 900px;
+            margin-bottom: 4rem;
+        }
+
+        .hero-title {
+            font-family: 'Onest', sans-serif;
+            font-weight: 900;
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+            margin-bottom: 1.5rem;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease-out 0.2s forwards;
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1.1rem, 2vw, 1.4rem);
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 2.5rem;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease-out 0.4s forwards;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease-out 0.6s forwards;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Кнопки */
+        .btn {
+            font-family: 'Onest', sans-serif;
+            font-weight: 700;
+            font-size: 1rem;
+            padding: 1rem 2rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            border: none;
+        }
+
+        .btn-primary {
+            background-color: var(--accent-amber);
+            color: var(--bg-primary);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--accent-amber-hover);
+            box-shadow: 0 0 40px rgba(255, 179, 71, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--text-primary);
+            border: 2px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--logo-lighter);
+            color: var(--logo-lighter);
+            transform: translateY(-2px);
+        }
+
+        /* Статистика */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease-out 0.8s forwards;
+        }
+
+        .stat-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 1rem;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .stat-card:hover {
+            border-color: var(--logo-lighter);
+            box-shadow: 0 0 40px rgba(33, 157, 210, 0.15);
+            transform: translateY(-4px);
+        }
+
+        .stat-number {
+            font-family: 'Onest', sans-serif;
+            font-weight: 900;
+            font-size: 3rem;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+            line-height: 1;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 1.5rem 5%;
+            }
+
+            .nav-menu {
+                display: none;
+            }
+
+            .hero {
+                padding: 2rem 5% 4rem;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+                text-align: center;
+            }
+
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .stat-card {
+                padding: 1.5rem;
+            }
+
+            .stat-number {
+                font-size: 2.5rem;
+            }
+
+            .logo-pattern {
+                width: 500px;
+                height: 500px;
+                right: -20%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+            .logo-pattern {
+                width: 350px;
+                height: 350px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Фоновые элементы -->
+    <div class="hero-background">
+        <!-- Точный логотип как фоновый паттерн -->
+        <svg class="logo-pattern" viewBox="100 100 230 200" xmlns="http://www.w3.org/2000/svg">
+            <g transform="matrix(1.3333333,0,0,-1.3333333,0,380)">
+                <g transform="scale(0.1)">
+                    <path style="fill:#004caa;fill-opacity:1;fill-rule:evenodd;stroke:none" d="m 1200.1,1367.08 -142.87,540.65 288.53,299.73 198.89,-98.04 -2.8,-182.08 -236.77,-105.11 -14.25,-477.09 -90.73,21.94" />
+                    <path style="fill:#0466ba;fill-opacity:1;fill-rule:evenodd;stroke:none" d="m 1412.88,1740.49 472.96,298.35 372.44,-185.43 -33.92,-219.13 -174.55,-51.91 -171.24,194.38 -459.43,-129.4 -6.26,93.14" />
+                    <path style="fill:#0f82c5;fill-opacity:1;fill-rule:evenodd;stroke:none" d="m 1868.59,1676.37 413.45,-376.52 -79.63,-408.35 -220.26,-25.617 -96.48,154.447 141.8,216.79 -247,408.42 88.12,30.83" />
+                    <path style="fill:#219dd2;fill-opacity:1;fill-rule:evenodd;stroke:none" d="m 1903.77,1207.39 -216.85,-515.449 -411.5,-61.296 -97.7,199.062 113.37,142.516 251.69,-61.274 302.51,369.201 58.48,-72.76" />
+                    <path style="fill:#0d83c6;fill-opacity:1;fill-rule:evenodd;stroke:none" d="m 1500.57,1019.2 -558.449,29.12 -197.262,366.31 154.114,159.42 172.527,-58.28 27.74,-257.56 449.94,-159.32 -48.61,-79.69" />
+                    <path style="fill:#219dd2;fill-opacity:1;fill-rule:evenodd;stroke:none" d="m 1628.91,1963.87 -2.19,263.21 268.64,-89.57 z" />
+                    <path style="fill:#0d83c6;fill-opacity:1;fill-rule:evenodd;stroke:none" d="m 2123.57,1526.64 249.53,83.8 -1.75,-283.17 z" />
+                    <path style="fill:#004caa;fill-opacity:1;fill-rule:evenodd;stroke:none" d="m 1854.95,920.949 157.13,-211.176 -269.72,-86.25 z" />
+                    <path style="fill:#0466ba;fill-opacity:1;fill-rule:evenodd;stroke:none" d="M 1210.02,980.02 1058.06,765.09 892.332,994.707 Z" />
+                    <path style="fill:#0f82c5;fill-opacity:1;fill-rule:evenodd;stroke:none" d="m 1062.81,1608.59 -251.486,77.72 166.824,228.83 z" />
+                </g>
+            </g>
+        </svg>
+        
+        <div class="glow-line glow-line-1"></div>
+        <div class="glow-line glow-line-2"></div>
+        <div class="glow-line glow-line-3"></div>
+    </div>
+
+    <!-- Навигация -->
+    <nav class="navbar">
+        <a href="#" class="logo">
+           <Logo/>
+        </a>
+        
+        <ul class="nav-menu">
+            <li><a href="#services">Услуги</a></li>
+            <li><a href="#projects">Объекты</a></li>
+            <li><a href="#equipment">Техника</a></li>
+            <li><a href="#licenses">Лицензии</a></li>
+            <li><a href="#contacts">Контакты</a></li>
+        </ul>
+        
+        <span class="nav-lang">RU / EN</span>
+    </nav>
+
+    <!-- Hero секция -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title">
+                ПРОЕКТИРОВАНИЕ И СТРОИТЕЛЬСТВО ВОЛОКОННО-ОПТИЧЕСКИХ ЛИНИЙ СВЯЗИ
+            </h1>
+            
+            <p class="hero-subtitle">
+                Собственный парк техники · Допуски СРО · Объекты любой сложности по всей России
+            </p>
+            
+            <div class="hero-buttons">
+                <a href="#contacts" class="btn btn-primary">Рассчитать стоимость</a>
+                <a href="#projects" class="btn btn-secondary">Наши объекты →</a>
+            </div>
+        </div>
+
+        <!-- Статистика -->
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-number" data-target="4500">0</div>
+                <div class="stat-label">км ВОЛС построено</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-number" data-target="12">0</div>
+                <div class="stat-label">лет на рынке</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-number" data-target="85">0</div>
+                <div class="stat-label">единиц техники</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-number" data-target="15">0</div>
+                <div class="stat-label">лет гарантии</div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Анимация счетчиков
+        const counters = document.querySelectorAll('.stat-number');
+        const speed = 200;
+
+        const animateCounter = (counter) => {
+            const target = +counter.getAttribute('data-target');
+            const count = +counter.innerText;
+            const increment = target / speed;
+
+            if (count < target) {
+                counter.innerText = Math.ceil(count + increment);
+                setTimeout(() => animateCounter(counter), 10);
+            } else {
+                counter.innerText = target + (target === 4500 ? '+' : '');
+            }
+        };
+
+        // Запуск анимации при загрузке
+        window.addEventListener('load', () => {
+            counters.forEach(counter => {
+                setTimeout(() => animateCounter(counter), 1000);
+            });
+        });
+
+        // Плавная прокрутка для якорных ссылок
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
