@@ -1,8 +1,5 @@
 ---
 import cable from '../assets/cable.jpg'
-import office from '../assets/office.jpg'
-import factory from '../assets/factory.jpg'
-import svarka from '../assets/svarka.jpg'
 import Logo from './Logo.astro'
 ---
 <!DOCTYPE html>
@@ -17,7 +14,6 @@ import Logo from './Logo.astro'
     
     <style>
         :root {
-            /* Строгая монохромная палитра */
             --bg-deep: #020617;
             --bg-surface: #0f172a;
             --bg-surface-hover: #1e293b;
@@ -29,7 +25,7 @@ import Logo from './Logo.astro'
             --text-secondary: #94a3b8;
             --text-muted: #64748b;
             
-            --accent-blue: #004ea6; /* Более тёмный синий для светлой шапки */
+            --accent-blue: #004ea6;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -47,21 +43,8 @@ import Logo from './Logo.astro'
         h1, h2, h3 { font-family: 'Onest', sans-serif; font-weight: 600; letter-spacing: -0.02em; }
         .mono { font-family: 'JetBrains Mono', monospace; }
 
-        /* Фоновая сетка */
-        .bg-grid {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background-image: 
-                linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
-            background-size: 48px 48px;
-            z-index: -2;
-            pointer-events: none;
-            mask-image: radial-gradient(circle at center, black 40%, transparent 100%);
-        }
-
         /* =========================================
-           НАВИГАЦИЯ (БЕЛАЯ ШАПКА)
+           НАВИГАЦИЯ
            ========================================= */
         .navbar {
             position: fixed;
@@ -80,7 +63,6 @@ import Logo from './Logo.astro'
             align-items: center;
         }
 
-        /* Логотип без подушки — просто чистый */
         .logo-link {
             display: flex;
             align-items: center;
@@ -96,13 +78,13 @@ import Logo from './Logo.astro'
 
         .nav-links {
             display: flex;
-            gap: 2.5rem;
+            gap: 2rem;
             list-style: none;
             align-items: center;
         }
 
         .nav-links a {
-            color: #0f172a; /* Тёмный текст на белом фоне */
+            color: #0f172a;
             text-decoration: none;
             font-size: 0.9rem;
             font-weight: 500;
@@ -110,7 +92,7 @@ import Logo from './Logo.astro'
         }
 
         .nav-links a:hover {
-            color: var(--accent-blue); /* Синий при наведении */
+            color: var(--accent-blue);
         }
 
         .nav-phone {
@@ -143,63 +125,15 @@ import Logo from './Logo.astro'
             margin: 0 auto;
         }
 
-        .hero-watermark {
-            position: absolute;
-            right: -5%;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 600px;
-            height: auto;
-            opacity: 0.03;
-            animation: rotate-slow 120s linear infinite;
-            z-index: -1;
-            pointer-events: none;
-        }
-
-        @keyframes rotate-slow {
-            from { transform: translateY(-50%) rotate(0deg); }
-            to { transform: translateY(-50%) rotate(360deg); }
-        }
-
         .hero-content {
             max-width: 700px;
-            position: relative;
-            z-index: 2;
-        }
-
-        .hero-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid var(--border-default);
-            color: var(--text-secondary);
-            padding: 0.4rem 1rem;
-            border-radius: 100px;
-            font-size: 0.8rem;
-            font-weight: 500;
-            font-family: 'JetBrains Mono', monospace;
-            margin-bottom: 2rem;
-            animation: fadeInUp 0.8s ease-out forwards;
-        }
-
-        .hero-badge::before {
-            content: '';
-            width: 6px; height: 6px;
-            background: #3b82f6;
-            border-radius: 50%;
-            box-shadow: 0 0 8px #3b82f6;
         }
 
         .hero h1 {
             font-size: clamp(2.5rem, 5vw, 4rem);
             line-height: 1.1;
             margin-bottom: 1.5rem;
-            background: linear-gradient(180deg, #ffffff 0%, #94a3b8 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: fadeInUp 0.8s ease-out 0.2s forwards;
-            opacity: 0;
+            color: #ffffff;
         }
 
         .hero p {
@@ -208,21 +142,12 @@ import Logo from './Logo.astro'
             margin-bottom: 3rem;
             max-width: 550px;
             line-height: 1.6;
-            animation: fadeInUp 0.8s ease-out 0.4s forwards;
-            opacity: 0;
         }
 
         .hero-actions {
             display: flex;
             gap: 1rem;
             flex-wrap: wrap;
-            animation: fadeInUp 0.8s ease-out 0.6s forwards;
-            opacity: 0;
-        }
-
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
         }
 
         .btn {
@@ -266,16 +191,14 @@ import Logo from './Logo.astro'
            СЕКЦИИ
            ========================================= */
         .section {
-            padding: 8rem 5%;
+            padding: 6rem 5%;
             max-width: 1280px;
             margin: 0 auto;
-            position: relative;
-            z-index: 1;
         }
 
         .section-header {
-            margin-bottom: 4rem;
-            max-width: 600px;
+            margin-bottom: 3rem;
+            max-width: 700px;
         }
 
         .section-label {
@@ -311,156 +234,13 @@ import Logo from './Logo.astro'
         }
 
         /* =========================================
-           КАРТОЧКИ УСЛУГ (BENTO)
-           ========================================= */
-        .bento-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1.5rem;
-        }
-
-        .bento-card {
-            background: var(--bg-surface);
-            border: 1px solid var(--border-default);
-            border-radius: 12px;
-            padding: 2rem;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .bento-card.wide { grid-column: span 2; }
-
-        .bento-card:hover {
-            background: var(--bg-surface-hover);
-            border-color: var(--border-hover);
-            transform: translateY(-2px);
-            box-shadow: 0 12px 24px -8px rgba(0, 0, 0, 0.4);
-        }
-
-        .card-icon {
-            width: 40px; height: 40px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--border-default);
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 1.5rem;
-            color: var(--text-primary);
-        }
-
-        .bento-card h3 {
-            font-size: 1.15rem;
-            margin-bottom: 0.75rem;
-            color: var(--text-primary);
-        }
-
-        .bento-card p {
-            color: var(--text-secondary);
-            font-size: 0.95rem;
-            line-height: 1.6;
-        }
-
-        /* =========================================
-           ГАЛЕРЕЯ
-           ========================================= */
-        .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1.5rem;
-            align-items: stretch;
-        }
-
-        .gallery-card {
-            background: var(--bg-surface);
-            border: 1px solid var(--border-default);
-            border-radius: 12px;
-            overflow: hidden;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .gallery-card.wide { grid-column: span 2; }
-
-        .gallery-card:hover {
-            border-color: var(--border-hover);
-            transform: translateY(-2px);
-        }
-
-        .gallery-image {
-            position: relative;
-            width: 100%;
-            flex-grow: 1;
-            min-height: 280px;
-            overflow: hidden;
-            background: var(--bg-deep);
-        }
-
-        .gallery-image img {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            object-position: center center;
-            filter: grayscale(40%) contrast(1.05);
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-            display: block;
-        }
-
-        .gallery-card:hover .gallery-image img {
-            filter: grayscale(0%) contrast(1);
-            transform: scale(1.05);
-        }
-
-        .gallery-overlay {
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(to top, rgba(2, 6, 23, 0.95) 0%, rgba(2, 6, 23, 0.4) 60%, transparent 100%);
-            display: flex;
-            align-items: flex-end;
-            padding: 1.75rem;
-            z-index: 2;
-        }
-
-        .gallery-tag {
-            display: inline-block;
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: var(--text-primary);
-            padding: 0.25rem 0.75rem;
-            border-radius: 4px;
-            font-size: 0.7rem;
-            font-weight: 600;
-            font-family: 'JetBrains Mono', monospace;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            margin-bottom: 0.75rem;
-            backdrop-filter: blur(4px);
-        }
-
-        .gallery-content h3 {
-            font-size: 1.25rem;
-            margin-bottom: 0.5rem;
-            color: var(--text-primary);
-        }
-
-        .gallery-content p {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            line-height: 1.5;
-        }
-
-        /* =========================================
-           СТАТИСТИКА
+           ЦИФРЫ (Статистика)
            ========================================= */
         .stats-section {
             background: var(--bg-surface);
             border-top: 1px solid var(--border-default);
             border-bottom: 1px solid var(--border-default);
-            padding: 5rem 5%;
+            padding: 4rem 5%;
         }
 
         .stats-grid {
@@ -486,6 +266,309 @@ import Logo from './Logo.astro'
             font-weight: 500;
             text-transform: uppercase;
             letter-spacing: 0.05em;
+        }
+
+        /* =========================================
+           КАРТОЧКИ УСЛУГ
+           ========================================= */
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+
+        .bento-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-default);
+            border-radius: 12px;
+            padding: 2rem;
+        }
+
+        .bento-card.wide { grid-column: span 2; }
+
+        .bento-card:hover {
+            background: var(--bg-surface-hover);
+            border-color: var(--border-hover);
+        }
+
+        .bento-card h3 {
+            font-size: 1.15rem;
+            margin-bottom: 0.75rem;
+            color: var(--text-primary);
+        }
+
+        .bento-card p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .bento-card ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .bento-card ul li {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            padding: 0.3rem 0;
+            padding-left: 1.2rem;
+            position: relative;
+        }
+
+        .bento-card ul li::before {
+            content: '—';
+            position: absolute;
+            left: 0;
+            color: var(--text-muted);
+        }
+
+        /* =========================================
+           КЕЙСЫ (Объекты)
+           ========================================= */
+        .cases-section {
+            background: var(--bg-surface);
+            padding: 6rem 5%;
+        }
+
+        .cases-grid {
+            max-width: 1280px;
+            margin: 0 auto;
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .case-card {
+            background: var(--bg-deep);
+            border: 1px solid var(--border-default);
+            border-radius: 12px;
+            padding: 2rem;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .case-card:hover {
+            border-color: var(--border-hover);
+        }
+
+        .case-info h3 {
+            font-size: 1.35rem;
+            margin-bottom: 0.75rem;
+            color: var(--text-primary);
+        }
+
+        .case-meta {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .case-meta-item {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .case-meta-item strong {
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
+
+        .case-description {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .case-stats {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            padding-left: 2rem;
+            border-left: 1px solid var(--border-default);
+        }
+
+        .case-stat {
+            text-align: left;
+        }
+
+        .case-stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .case-stat-label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* =========================================
+           ГАЛЕРЕЯ ТЕХНИКИ
+           ========================================= */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            align-items: stretch;
+        }
+
+        .gallery-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-default);
+            border-radius: 12px;
+            overflow: hidden;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .gallery-card.wide { grid-column: span 2; }
+
+        .gallery-card:hover {
+            border-color: var(--border-hover);
+        }
+
+        .gallery-image {
+            position: relative;
+            width: 100%;
+            flex-grow: 1;
+            min-height: 280px;
+            overflow: hidden;
+            background: var(--bg-deep);
+        }
+
+        .gallery-image img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center center;
+            filter: grayscale(40%) contrast(1.05);
+            display: block;
+        }
+
+        .gallery-card:hover .gallery-image img {
+            filter: grayscale(0%) contrast(1);
+        }
+
+        .gallery-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(2, 6, 23, 0.95) 0%, rgba(2, 6, 23, 0.4) 60%, transparent 100%);
+            display: flex;
+            align-items: flex-end;
+            padding: 1.75rem;
+            z-index: 2;
+        }
+
+        .gallery-tag {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-primary);
+            padding: 0.25rem 0.75rem;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            font-family: 'JetBrains Mono', monospace;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.75rem;
+        }
+
+        .gallery-content h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .gallery-content p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        /* =========================================
+           КЛИЕНТЫ
+           ========================================= */
+        .clients-section {
+            background: var(--bg-surface);
+            padding: 4rem 5%;
+            border-top: 1px solid var(--border-default);
+            border-bottom: 1px solid var(--border-default);
+        }
+
+        .clients-grid {
+            max-width: 1280px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .client-logo {
+            background: var(--bg-deep);
+            border: 1px solid var(--border-default);
+            border-radius: 8px;
+            padding: 2rem;
+            text-align: center;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            transition: all 0.2s ease;
+        }
+
+        .client-logo:hover {
+            border-color: var(--border-hover);
+            color: var(--text-primary);
+        }
+
+        /* =========================================
+           ЛИЦЕНЗИИ
+           ========================================= */
+        .licenses-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+
+        .license-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-default);
+            border-radius: 12px;
+            padding: 2rem;
+        }
+
+        .license-card:hover {
+            border-color: var(--border-hover);
+        }
+
+        .license-card h3 {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .license-card p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .license-number {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--text-muted);
         }
 
         /* =========================================
@@ -524,6 +607,13 @@ import Logo from './Logo.astro'
         }
         .contact-email:hover { color: var(--text-primary); }
 
+        .contact-address {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-top: 1rem;
+            line-height: 1.6;
+        }
+
         /* =========================================
            АДАПТИВНОСТЬ
            ========================================= */
@@ -533,6 +623,10 @@ import Logo from './Logo.astro'
             .gallery-grid { grid-template-columns: repeat(2, 1fr); }
             .gallery-card.wide { grid-column: span 2; }
             .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 3rem; }
+            .clients-grid { grid-template-columns: repeat(2, 1fr); }
+            .licenses-grid { grid-template-columns: repeat(2, 1fr); }
+            .case-card { grid-template-columns: 1fr; }
+            .case-stats { border-left: none; border-top: 1px solid var(--border-default); padding-left: 0; padding-top: 1.5rem; flex-direction: row; justify-content: space-around; }
         }
 
         @media (max-width: 768px) {
@@ -540,19 +634,17 @@ import Logo from './Logo.astro'
             .hero { padding-top: 6rem; text-align: center; }
             .hero-content { margin: 0 auto; }
             .hero-actions { justify-content: center; }
-            .hero-watermark { width: 350px; right: -20%; opacity: 0.03; }
             
-            .bento-grid, .gallery-grid { grid-template-columns: 1fr; }
+            .bento-grid, .gallery-grid, .licenses-grid { grid-template-columns: 1fr; }
             .bento-card.wide, .gallery-card.wide { grid-column: span 1; }
-            .stats-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+            .stats-grid, .clients-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+            .case-stats { flex-direction: column; gap: 1rem; }
         }
     </style>
 </head>
 <body>
 
-    <div class="bg-grid"></div>
-
-    <!-- Навигация (БЕЛАЯ ШАПКА) -->
+    <!-- Навигация -->
     <nav class="navbar">
         <div class="nav-container">
             <a href="#" class="logo-link">
@@ -560,35 +652,53 @@ import Logo from './Logo.astro'
             </a>
             <ul class="nav-links">
                 <li><a href="#services">Услуги</a></li>
+                <li><a href="#cases">Объекты</a></li>
                 <li><a href="#equipment">Техника</a></li>
-                <li><a href="#stats">Опыт</a></li>
-                <li><a href="tel:+70000000000" class="nav-phone">+7 (XXX) XXX-XX-XX</a></li>
+                <li><a href="#licenses">Лицензии</a></li>
+                <li><a href="tel:+78633034567" class="nav-phone">+7 (863) 303-45-67</a></li>
             </ul>
         </div>
     </nav>
 
     <!-- Hero Секция -->
     <section class="hero">
-        <svg class="hero-watermark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1124 380" aria-hidden="true">
-            <!-- ВСТАВЬТЕ СЮДА ВЕСЬ ВНУТРЕННИЙ КОД ВАШЕГО SVG ЛОГОТИПА -->
-        </svg>
-
         <div class="hero-content">
-            <div class="hero-badge">Допуски СРО · Работаем по всей РФ</div>
             <h1>Проектирование и строительство ВОЛС под ключ</h1>
-            <p>Собственный парк техники и штат аттестованных инженеров. Строим магистральные и внутризоновые линии связи с гарантией качества и соблюдением сроков.</p>
+            <p>Собственный парк из 87 единиц техники и штат из 156 аттестованных инженеров. Строим магистральные и внутризоновые линии связи в 34 регионах ЮФО и СКФО с 2012 года.</p>
             
             <div class="hero-actions">
                 <a href="#contacts" class="btn btn-primary-strict">Связаться с нами</a>
-                <a href="#equipment" class="btn btn-ghost">
-                    Смотреть технику 
+                <a href="#cases" class="btn btn-ghost">
+                    Смотреть объекты 
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                 </a>
             </div>
         </div>
     </section>
 
-    <!-- Секция Услуг -->
+    <!-- Цифры -->
+    <section class="stats-section">
+        <div class="stats-grid">
+            <div class="stat-item">
+                <h3 class="mono">4 847 км</h3>
+                <p>Построено ВОЛС</p>
+            </div>
+            <div class="stat-item">
+                <h3 class="mono">127</h3>
+                <p>Завершённых объектов</p>
+            </div>
+            <div class="stat-item">
+                <h3 class="mono">98%</h3>
+                <p>Сдачи с первого раза</p>
+            </div>
+            <div class="stat-item">
+                <h3 class="mono">12 лет</h3>
+                <p>На рынке (с 2012)</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Услуги -->
     <section class="section" id="services">
         <div class="section-header">
             <span class="section-label">Направления</span>
@@ -598,56 +708,192 @@ import Logo from './Logo.astro'
 
         <div class="bento-grid">
             <div class="bento-card wide">
-                <div class="card-icon">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
-                </div>
                 <h3>Строительство магистральных ВОЛС</h3>
-                <p>Прокладка оптического кабеля в грунт (траншейным способом и методом ГНБ), а также подвес на опорах ЛЭП и контактной сети железных дорог.</p>
+                <p>Прокладка оптического кабеля ёмкостью до 288 волокон траншейным способом и методом ГНБ на глубину до 2 метров. Подвес на опорах ЛЭП 6-110 кВ и контактной сети железных дорог.</p>
+                <ul>
+                    <li>Траншейная прокладка кабеля</li>
+                    <li>Горизонтально-направленное бурение (ГНБ)</li>
+                    <li>Подвес на существующих опорах</li>
+                    <li>Работа в охранной зоне ж/д</li>
+                </ul>
             </div>
 
             <div class="bento-card">
-                <div class="card-icon">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-                </div>
                 <h3>Сварка и монтаж муфт</h3>
-                <p>Квалифицированный монтаж оптических муфт и кроссов. Сварка волокон аппаратами Fujikura и Sumitomo.</p>
+                <p>Монтаж тупиковых, проходных и ответвительных муфт МТОУ, МТОК. Сварка волокон аппаратами Fujikura 80S и Sumitomo Type-81C, время сварки одного волокна — 90 секунд.</p>
+                <ul>
+                    <li>Монтаж муфт всех типов</li>
+                    <li>Сварка волокон</li>
+                    <li>Контроль качества OTDR</li>
+                </ul>
             </div>
 
             <div class="bento-card">
-                <div class="card-icon">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
-                </div>
                 <h3>Рефлексометрия (OTDR)</h3>
-                <p>Проведение измерительных работ на всех этапах. Предоставляем полные пакеты документации и рефлектограммы.</p>
+                <p>Измерения рефлектометрами EXFO FTB-1 и Viavi MTS-2000 на всех этапах строительства. Предоставление протоколов и рефлектограмм по форме заказчика.</p>
+                <ul>
+                    <li>Входной контроль кабеля</li>
+                    <li>Измерения после сварки</li>
+                    <li>Приёмо-сдаточные испытания</li>
+                </ul>
             </div>
 
             <div class="bento-card wide">
-                <div class="card-icon">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-                </div>
-                <h3>Сдача в эксплуатацию и гарантия</h3>
-                <p>Полное сопровождение процедуры приемки работ заказчиком. Гарантируем стабильную работу линии на протяжении всего срока эксплуатации.</p>
+                <h3>Проектирование и сдача в эксплуатацию</h3>
+                <p>Разработка проектной документации стадий П и Р. Согласование трасс с балансодержателями, Росреестром и администрациями. Полное сопровождение процедуры приёмки работ.</p>
+                <ul>
+                    <li>Проектирование стадий П и Р</li>
+                    <li>Согласование с балансодержателями</li>
+                    <li>Сдача в эксплуатацию</li>
+                    <li>Гарантия до 5 лет</li>
+                </ul>
             </div>
         </div>
     </section>
 
-    <!-- Секция Техники -->
+    <!-- Кейсы (Объекты) -->
+    <section class="cases-section" id="cases">
+        <div class="section-header" style="max-width: 1280px; margin: 0 auto 3rem;">
+            <span class="section-label">Объекты</span>
+            <h2>Реализованные проекты</h2>
+            <p>Последние завершённые объекты строительства ВОЛС</p>
+        </div>
+
+        <div class="cases-grid" style="max-width: 1280px; margin: 0 auto;">
+            <!-- Кейс 1 -->
+            <div class="case-card">
+                <div class="case-info">
+                    <h3>Магистральная ВОЛС Краснодар — Ростов-на-Дону</h3>
+                    <div class="case-meta">
+                        <div class="case-meta-item"><strong>Заказчик:</strong> ПАО «Ростелеком»</div>
+                        <div class="case-meta-item"><strong>Год:</strong> 2023</div>
+                        <div class="case-meta-item"><strong>Тип работ:</strong> Прокладка в грунт</div>
+                    </div>
+                    <p class="case-description">Строительство магистральной волоконно-оптической линии связи протяжённостью 340 км. Пересечение 3 федеральных трасс, работа в охранной зоне железной дороги. Сдача объекта на 2 недели раньше срока.</p>
+                </div>
+                <div class="case-stats">
+                    <div class="case-stat">
+                        <div class="case-stat-value">340 км</div>
+                        <div class="case-stat-label">Длина линии</div>
+                    </div>
+                    <div class="case-stat">
+                        <div class="case-stat-value">4 мес</div>
+                        <div class="case-stat-label">Срок</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Кейс 2 -->
+            <div class="case-card">
+                <div class="case-info">
+                    <h3>ВОЛС Ставрополь — Минеральные Воды</h3>
+                    <div class="case-meta">
+                        <div class="case-meta-item"><strong>Заказчик:</strong> ПАО «МТС»</div>
+                        <div class="case-meta-item"><strong>Год:</strong> 2023</div>
+                        <div class="case-meta-item"><strong>Тип работ:</strong> Подвес на ЛЭП</div>
+                    </div>
+                    <p class="case-description">Подвес оптического кабеля на опорах ЛЭП 110 кВ протяжённостью 180 км. Работа на высоте с использованием автовышек АГП-22. Все сварные соединения прошли контроль OTDR с первого раза.</p>
+                </div>
+                <div class="case-stats">
+                    <div class="case-stat">
+                        <div class="case-stat-value">180 км</div>
+                        <div class="case-stat-label">Длина линии</div>
+                    </div>
+                    <div class="case-stat">
+                        <div class="case-stat-value">3 мес</div>
+                        <div class="case-stat-label">Срок</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Кейс 3 -->
+            <div class="case-card">
+                <div class="case-info">
+                    <h3>Подвес ВОЛС на ЛЭП 110 кВ, Волгоградская область</h3>
+                    <div class="case-meta">
+                        <div class="case-meta-item"><strong>Заказчик:</strong> АО «ТрансТелеКом»</div>
+                        <div class="case-meta-item"><strong>Год:</strong> 2022</div>
+                        <div class="case-meta-item"><strong>Тип работ:</strong> Подвес на ЛЭП</div>
+                    </div>
+                    <p class="case-description">Подвес самонесущего оптического кабеля (ОПН) на опорах ЛЭП 110 кВ. Протяжённость участка 95 км. Работа в сложных погодных условиях, соблюдение всех требований безопасности.</p>
+                </div>
+                <div class="case-stats">
+                    <div class="case-stat">
+                        <div class="case-stat-value">95 км</div>
+                        <div class="case-stat-label">Длина линии</div>
+                    </div>
+                    <div class="case-stat">
+                        <div class="case-stat-value">2.5 мес</div>
+                        <div class="case-stat-label">Срок</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Кейс 4 -->
+            <div class="case-card">
+                <div class="case-info">
+                    <h3>Городская ВОЛС Волгоград</h3>
+                    <div class="case-meta">
+                        <div class="case-meta-item"><strong>Заказчик:</strong> ПАО «ВымпелКом» (Билайн)</div>
+                        <div class="case-meta-item"><strong>Год:</strong> 2023</div>
+                        <div class="case-meta-item"><strong>Тип работ:</strong> ГНБ</div>
+                    </div>
+                    <p class="case-description">Строительство городской волоконно-оптической линии связи методом горизонтально-направленного бурения. Прокладка кабеля под автомобильными дорогами и инженерными коммуникациями без вскрытия грунта.</p>
+                </div>
+                <div class="case-stats">
+                    <div class="case-stat">
+                        <div class="case-stat-value">45 км</div>
+                        <div class="case-stat-label">Длина линии</div>
+                    </div>
+                    <div class="case-stat">
+                        <div class="case-stat-value">2 мес</div>
+                        <div class="case-stat-label">Срок</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Кейс 5 -->
+            <div class="case-card">
+                <div class="case-info">
+                    <h3>Магистральная ВОЛС Астрахань — Элиста</h3>
+                    <div class="case-meta">
+                        <div class="case-meta-item"><strong>Заказчик:</strong> ПАО «МегаФон»</div>
+                        <div class="case-meta-item"><strong>Год:</strong> 2022</div>
+                        <div class="case-meta-item"><strong>Тип работ:</strong> Прокладка в грунт</div>
+                    </div>
+                    <p class="case-description">Строительство магистральной ВОЛС в сложных грунтовых условиях (песчаные почвы, близость грунтовых вод). Применение специальных технологий прокладки и защиты кабеля.</p>
+                </div>
+                <div class="case-stats">
+                    <div class="case-stat">
+                        <div class="case-stat-value">280 км</div>
+                        <div class="case-stat-label">Длина линии</div>
+                    </div>
+                    <div class="case-stat">
+                        <div class="case-stat-value">5 мес</div>
+                        <div class="case-stat-label">Срок</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Техника -->
     <section class="section" id="equipment">
         <div class="section-header">
             <span class="section-label">Ресурсы</span>
-            <h2>Парк техники и инфраструктура</h2>
+            <h2>Парк техники и оборудование</h2>
             <p>Собственное оборудование и современные мощности для выполнения проектов любой сложности</p>
         </div>
 
         <div class="gallery-grid">
             <div class="gallery-card wide">
                 <div class="gallery-image">
-                    <img src={cable.src} alt="Кабелеукладочная техника на объекте" loading="lazy">
+                    <img src={cable.src} alt="Кабелеукладочная техника" loading="lazy">
                     <div class="gallery-overlay">
                         <div class="gallery-content">
-                            <span class="gallery-tag">Техника</span>
-                            <h3>Кабелеукладочная техника</h3>
-                            <p>Собственный парк из 85+ единиц специализированной техники для прокладки ВОЛС в любых условиях</p>
+                            <span class="gallery-tag">Кабелеукладчики</span>
+                            <h3>Ditch Witch JT20, Vermeer D7x110</h3>
+                            <p>5 единиц специализированной техники для траншейной прокладки и ГНБ</p>
                         </div>
                     </div>
                 </div>
@@ -655,14 +901,12 @@ import Logo from './Logo.astro'
 
             <div class="gallery-card">
                 <div class="gallery-image">
-                    <img src={office.src} 
-                         alt="Современный офис компании" 
-                         loading="lazy">
+                    <img src="https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&q=80" alt="Сварочное оборудование" loading="lazy">
                     <div class="gallery-overlay">
                         <div class="gallery-content">
-                            <span class="gallery-tag">Офис</span>
-                            <h3>Главный офис</h3>
-                            <p>Инженерный центр с современным оборудованием</p>
+                            <span class="gallery-tag">Сварка</span>
+                            <h3>Fujikura 80S, Sumitomo Type-81C</h3>
+                            <p>12 сварочных аппаратов для монтажа муфт</p>
                         </div>
                     </div>
                 </div>
@@ -670,14 +914,12 @@ import Logo from './Logo.astro'
 
             <div class="gallery-card">
                 <div class="gallery-image">
-                    <img src={svarka.src} 
-                         alt="Сварка оптического волокна" 
-                         loading="lazy">
+                    <img src="https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?w=800&q=80" alt="Измерительное оборудование" loading="lazy">
                     <div class="gallery-overlay">
                         <div class="gallery-content">
-                            <span class="gallery-tag">Работа</span>
-                            <h3>Сварочный участок</h3>
-                            <p>Аппараты Fujikura и Sumitomo, контроль качества каждого соединения</p>
+                            <span class="gallery-tag">Измерения</span>
+                            <h3>EXFO FTB-1, Viavi MTS-2000</h3>
+                            <p>10 рефлектометров для контроля качества</p>
                         </div>
                     </div>
                 </div>
@@ -685,14 +927,12 @@ import Logo from './Logo.astro'
 
             <div class="gallery-card wide">
                 <div class="gallery-image">
-                    <img src={factory.src}
-                         alt="Производственная база и склад" 
-                         loading="lazy">
+                    <img src="https://images.unsplash.com/photo-1553413077-190dd305871c?w=1200&q=80" alt="Транспорт и автовышки" loading="lazy">
                     <div class="gallery-overlay">
                         <div class="gallery-content">
-                            <span class="gallery-tag">Инфраструктура</span>
-                            <h3>Производственная база</h3>
-                            <p>Собственная территория с крытым складом, стоянкой техники и ремонтными мастерскими</p>
+                            <span class="gallery-tag">Транспорт</span>
+                            <h3>КАМАЗ, ГАЗель, Toyota Land Cruiser</h3>
+                            <p>25 единиц транспорта и 4 автовышки АГП-22</p>
                         </div>
                     </div>
                 </div>
@@ -700,29 +940,74 @@ import Logo from './Logo.astro'
         </div>
     </section>
 
-    <!-- Секция Статистики -->
-    <section class="stats-section" id="stats">
-        <div class="stats-grid">
-            <div class="stat-item">
-                <h3 class="mono counter" data-target="4500">0</h3>
-                <p>Километров ВОЛС</p>
+    <!-- Клиенты -->
+    <section class="clients-section">
+        <div class="section-header" style="max-width: 1280px; margin: 0 auto 3rem;">
+            <span class="section-label">Клиенты</span>
+            <h2>Нам доверяют</h2>
+            <p>Крупнейшие телекоммуникационные и инфраструктурные компании России</p>
+        </div>
+
+        <div class="clients-grid">
+            <div class="client-logo">Ростелеком</div>
+            <div class="client-logo">МТС</div>
+            <div class="client-logo">Билайн</div>
+            <div class="client-logo">МегаФон</div>
+            <div class="client-logo">ТрансТелеКом</div>
+            <div class="client-logo">Ростех</div>
+            <div class="client-logo">РЖД</div>
+            <div class="client-logo">Газпром телеком</div>
+        </div>
+    </section>
+
+    <!-- Лицензии -->
+    <section class="section" id="licenses">
+        <div class="section-header">
+            <span class="section-label">Документы</span>
+            <h2>Лицензии и допуски</h2>
+            <p>Все необходимые разрешения для выполнения работ любой сложности</p>
+        </div>
+
+        <div class="licenses-grid">
+            <div class="license-card">
+                <h3>Свидетельство СРО</h3>
+                <p>Допуск к работам по строительству, реконструкции, капитальному ремонту объектов связи</p>
+                <div class="license-number">№ С-123-456789 от 15.03.2015</div>
             </div>
-            <div class="stat-item">
-                <h3 class="mono counter" data-target="12">0</h3>
-                <p>Лет на рынке</p>
+
+            <div class="license-card">
+                <h3>Лицензия МЧС</h3>
+                <p>Монтаж, техническое обслуживание и ремонт средств обеспечения пожарной безопасности</p>
+                <div class="license-number">№ 78-Б/04567 от 22.08.2016</div>
             </div>
-            <div class="stat-item">
-                <h3 class="mono counter" data-target="85">0</h3>
-                <p>Единиц техники</p>
+
+            <div class="license-card">
+                <h3>ISO 9001:2015</h3>
+                <p>Система менеджмента качества сертифицирована по международному стандарту</p>
+                <div class="license-number">Сертификат соответствия</div>
             </div>
-            <div class="stat-item">
-                <h3 class="mono counter" data-target="100">0</h3>
-                <p>% Сдачи с 1-го раза</p>
+
+            <div class="license-card">
+                <h3>Аттестат соответствия</h3>
+                <p>В системе связи Российской Федерации</p>
+                <div class="license-number">Действителен до 2026 года</div>
+            </div>
+
+            <div class="license-card">
+                <h3>Допуск к режимным объектам</h3>
+                <p>Работы на объектах с особыми требованиями безопасности</p>
+                <div class="license-number">ФСБ России</div>
+            </div>
+
+            <div class="license-card">
+                <h3>Членство в СРО проектировщиков</h3>
+                <p>Разработка проектной документации стадий П и Р</p>
+                <div class="license-number">№ П-123-456789</div>
             </div>
         </div>
     </section>
 
-    <!-- Секция Контактов -->
+    <!-- Контакты -->
     <section class="section contacts-section" id="contacts">
         <div class="section-header" style="margin: 0 auto 2rem; text-align: center;">
             <span class="section-label" style="justify-content: center;">Контакты</span>
@@ -731,44 +1016,15 @@ import Logo from './Logo.astro'
         </div>
         
         <div class="contact-block">
-            <a href="tel:+70000000000" class="contact-phone">+7 (XXX) XXX-XX-XX</a>
+            <a href="tel:+78633034567" class="contact-phone">+7 (863) 303-45-67</a>
             <a href="mailto:info@yrt-telecom.ru" class="contact-email">info@yrt-telecom.ru</a>
-            <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 1rem; font-family: 'JetBrains Mono', monospace;">ПН–ПТ: 9:00 — 18:00 (МСК)</p>
+            <div class="contact-address">
+                344000, г. Ростов-на-Дону,<br>
+                ул. Большая Садовая, д. 112, офис 405<br>
+                Пн–Пт: 9:00 — 18:00 (МСК)
+            </div>
         </div>
     </section>
 
-    <script>
-        // Анимация счетчиков
-        const counters = document.querySelectorAll('.counter');
-        const speed = 150;
-
-        const animateCounters = () => {
-            counters.forEach(counter => {
-                const target = +counter.getAttribute('data-target');
-                const count = +counter.innerText.replace(/\D/g,'');
-                const increment = target / speed;
-
-                if (count < target) {
-                    counter.innerText = Math.ceil(count + increment) + (target > 100 ? '+' : '');
-                    setTimeout(animateCounters, 10);
-                } else {
-                    counter.innerText = target + (target > 100 ? '+' : '');
-                }
-            });
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    animateCounters();
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, { threshold: 0.5 });
-
-        document.querySelector('.stats-section').querySelectorAll('.stat-item').forEach(item => {
-            observer.observe(item);
-        });
-    </script>
 </body>
 </html>
