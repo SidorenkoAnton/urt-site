@@ -5,6 +5,7 @@ import svarka from '../assets/svarka.jpg'
 import factory from '../assets/factory.jpg'
 import Logo from './Logo.astro'
 ---
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -13,22 +14,24 @@ import Logo from './Logo.astro'
     <title>ЮЖРЕГИОНТЕЛЕКОМ — Строительство ВОЛС под ключ</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&family=Golos+Text:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700;800&family=Golos+Text:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     
     <style>
         :root {
             --bg-deep: #020617;
-            --bg-surface: #0f172a;
-            --bg-surface-hover: #1e293b;
+            --bg-surface: rgba(15, 23, 42, 0.6);
+            --bg-surface-hover: rgba(30, 41, 59, 0.8);
             
-            --border-default: rgba(255, 255, 255, 0.06);
-            --border-hover: rgba(255, 255, 255, 0.15);
+            --border-default: rgba(255, 255, 255, 0.08);
+            --border-hover: rgba(74, 172, 225, 0.4);
             
             --text-primary: #f8fafc;
             --text-secondary: #94a3b8;
             --text-muted: #64748b;
             
+            --accent-glow: rgba(0, 78, 166, 0.15);
             --accent-blue: #004ea6;
+            --accent-cyan: #4aace1;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -43,32 +46,42 @@ import Logo from './Logo.astro'
             -webkit-font-smoothing: antialiased;
         }
 
-        h1, h2, h3 { font-family: 'Onest', sans-serif; font-weight: 600; letter-spacing: -0.02em; }
-        .mono { font-family: 'JetBrains Mono', monospace; }
-
-        /* Фоновая сетка */
-        .bg-grid {
+        /* Текстура шума для премиального ощущения */
+        .bg-noise {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background-image: 
-                linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
-            background-size: 48px 48px;
-            z-index: -2;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
             pointer-events: none;
-            mask-image: radial-gradient(circle at center, black 40%, transparent 100%);
+            z-index: -1;
         }
 
+        /* Глобальный фоновый градиент */
+        .bg-gradient-mesh {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: 
+                radial-gradient(circle at 15% 50%, rgba(0, 78, 166, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 85% 30%, rgba(74, 172, 225, 0.05) 0%, transparent 50%);
+            z-index: -2;
+            pointer-events: none;
+        }
+
+        h1, h2, h3 { font-family: 'Onest', sans-serif; font-weight: 700; letter-spacing: -0.03em; }
+        .mono { font-family: 'JetBrains Mono', monospace; }
+
         /* =========================================
-           НАВИГАЦИЯ (БЕЛАЯ ШАПКА)
+           НАВИГАЦИЯ (GLASSMORPHISM)
            ========================================= */
         .navbar {
             position: fixed;
             top: 0; left: 0; right: 0;
             z-index: 100;
-            background: #ffffff;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.08);
-            padding: 0.75rem 5%;
+            background: rgba(2, 6, 23, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-default);
+            padding: 1rem 5%;
+            transition: all 0.3s ease;
         }
 
         .nav-container {
@@ -79,18 +92,10 @@ import Logo from './Logo.astro'
             align-items: center;
         }
 
-        /* Логотип без подушки — просто чистый */
         .logo-link {
             display: flex;
             align-items: center;
             text-decoration: none;
-            padding: 0;
-        }
-
-        .logo-svg {
-            height: 40px;
-            width: auto;
-            display: block;
         }
 
         .nav-links {
@@ -101,33 +106,46 @@ import Logo from './Logo.astro'
         }
 
         .nav-links a {
-            color: #0f172a; /* Тёмный текст на белом фоне */
+            color: var(--text-secondary);
             text-decoration: none;
             font-size: 0.9rem;
             font-weight: 500;
             transition: color 0.2s ease;
+            position: relative;
         }
 
-        .nav-links a:hover {
-            color: var(--accent-blue); /* Синий при наведении */
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--accent-cyan);
+            transition: width 0.3s ease;
         }
+
+        .nav-links a:hover { color: var(--text-primary); }
+        .nav-links a:hover::after { width: 100%; }
 
         .nav-phone {
-            color: #0f172a !important;
+            color: var(--text-primary) !important;
             font-family: 'JetBrains Mono', monospace;
             font-weight: 600;
-            font-size: 0.9rem !important;
-            padding: 0.5rem 1rem;
-            border: 1px solid rgba(0, 0, 0, 0.15);
-            border-radius: 6px;
-            transition: all 0.2s ease;
+            font-size: 0.85rem !important;
+            padding: 0.6rem 1.2rem;
+            border: 1px solid var(--border-default);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.03);
         }
         
         .nav-phone:hover {
-            border-color: var(--accent-blue);
-            color: var(--accent-blue) !important;
-            background: rgba(0, 78, 166, 0.04);
+            border-color: var(--accent-cyan);
+            background: rgba(74, 172, 225, 0.1);
+            box-shadow: 0 0 15px rgba(74, 172, 225, 0.1);
         }
+        .nav-phone::after { display: none; }
 
         /* =========================================
            HERO СЕКЦИЯ
@@ -144,24 +162,19 @@ import Logo from './Logo.astro'
 
         .hero-watermark {
             position: absolute;
-            right: -5%;
+            right: -10%;
             top: 50%;
             transform: translateY(-50%);
-            width: 600px;
+            width: 800px;
             height: auto;
-            opacity: 0.03;
-            animation: rotate-slow 120s linear infinite;
+            opacity: 0.02;
             z-index: -1;
             pointer-events: none;
-        }
-
-        @keyframes rotate-slow {
-            from { transform: translateY(-50%) rotate(0deg); }
-            to { transform: translateY(-50%) rotate(360deg); }
+            filter: blur(2px);
         }
 
         .hero-content {
-            max-width: 700px;
+            max-width: 750px;
             position: relative;
             z-index: 2;
         }
@@ -170,13 +183,13 @@ import Logo from './Logo.astro'
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid var(--border-default);
-            color: var(--text-secondary);
-            padding: 0.4rem 1rem;
+            background: rgba(74, 172, 225, 0.05);
+            border: 1px solid rgba(74, 172, 225, 0.2);
+            color: var(--accent-cyan);
+            padding: 0.5rem 1.2rem;
             border-radius: 100px;
             font-size: 0.8rem;
-            font-weight: 500;
+            font-weight: 600;
             font-family: 'JetBrains Mono', monospace;
             margin-bottom: 2rem;
             animation: fadeInUp 0.8s ease-out forwards;
@@ -185,14 +198,20 @@ import Logo from './Logo.astro'
         .hero-badge::before {
             content: '';
             width: 6px; height: 6px;
-            background: #3b82f6;
+            background: var(--accent-cyan);
             border-radius: 50%;
-            box-shadow: 0 0 8px #3b82f6;
+            box-shadow: 0 0 8px var(--accent-cyan);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
         }
 
         .hero h1 {
-            font-size: clamp(2.5rem, 5vw, 4rem);
-            line-height: 1.1;
+            font-size: clamp(3rem, 6vw, 4.5rem);
+            line-height: 1.05;
             margin-bottom: 1.5rem;
             background: linear-gradient(180deg, #ffffff 0%, #94a3b8 100%);
             -webkit-background-clip: text;
@@ -202,11 +221,11 @@ import Logo from './Logo.astro'
         }
 
         .hero p {
-            font-size: 1.2rem;
+            font-size: 1.25rem;
             color: var(--text-secondary);
             margin-bottom: 3rem;
-            max-width: 550px;
-            line-height: 1.6;
+            max-width: 600px;
+            line-height: 1.7;
             animation: fadeInUp 0.8s ease-out 0.4s forwards;
             opacity: 0;
         }
@@ -220,45 +239,46 @@ import Logo from './Logo.astro'
         }
 
         @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
+            from { opacity: 0; transform: translateY(30px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
         .btn {
-            padding: 0.85rem 1.75rem;
-            border-radius: 8px;
+            padding: 1rem 2rem;
+            border-radius: 10px;
             font-family: 'Onest', sans-serif;
             font-weight: 600;
-            font-size: 0.95rem;
+            font-size: 1rem;
             text-decoration: none;
-            transition: all 0.2s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             cursor: pointer;
             display: inline-flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.75rem;
         }
 
-        .btn-primary-strict {
-            background: var(--text-primary);
-            color: var(--bg-deep);
-            border: 1px solid var(--text-primary);
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent-blue) 0%, #003d82 100%);
+            color: #ffffff;
+            border: 1px solid rgba(74, 172, 225, 0.3);
+            box-shadow: 0 4px 20px rgba(0, 78, 166, 0.3);
         }
 
-        .btn-primary-strict:hover {
-            background: #e2e8f0;
-            border-color: #e2e8f0;
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(0, 78, 166, 0.5);
+            border-color: var(--accent-cyan);
         }
 
         .btn-ghost {
-            background: transparent;
-            color: var(--text-secondary);
+            background: rgba(255, 255, 255, 0.03);
+            color: var(--text-primary);
             border: 1px solid var(--border-default);
         }
 
         .btn-ghost:hover {
-            color: var(--text-primary);
+            background: rgba(255, 255, 255, 0.08);
             border-color: var(--border-hover);
-            background: var(--bg-surface);
         }
 
         /* =========================================
@@ -274,7 +294,7 @@ import Logo from './Logo.astro'
 
         .section-header {
             margin-bottom: 4rem;
-            max-width: 600px;
+            max-width: 650px;
         }
 
         .section-label {
@@ -282,35 +302,37 @@ import Logo from './Logo.astro'
             align-items: center;
             gap: 0.75rem;
             font-family: 'JetBrains Mono', monospace;
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            font-weight: 500;
-            letter-spacing: 0.05em;
+            font-size: 0.75rem;
+            color: var(--accent-cyan);
+            font-weight: 600;
+            letter-spacing: 0.1em;
             text-transform: uppercase;
             margin-bottom: 1rem;
         }
 
         .section-label::before {
             content: '';
-            width: 16px;
-            height: 1px;
-            background: var(--text-muted);
+            width: 24px;
+            height: 2px;
+            background: var(--accent-cyan);
+            border-radius: 2px;
         }
 
         .section-header h2 {
-            font-size: clamp(2rem, 4vw, 2.5rem);
-            line-height: 1.2;
-            margin-bottom: 1rem;
+            font-size: clamp(2.2rem, 4vw, 3rem);
+            line-height: 1.15;
+            margin-bottom: 1.25rem;
             color: var(--text-primary);
         }
 
         .section-header p {
             color: var(--text-secondary);
-            font-size: 1.1rem;
+            font-size: 1.15rem;
+            line-height: 1.7;
         }
 
         /* =========================================
-           КАРТОЧКИ УСЛУГ (BENTO)
+           КАРТОЧКИ УСЛУГ (BENTO PREMIUM)
            ========================================= */
         .bento-grid {
             display: grid;
@@ -321,9 +343,20 @@ import Logo from './Logo.astro'
         .bento-card {
             background: var(--bg-surface);
             border: 1px solid var(--border-default);
-            border-radius: 12px;
-            padding: 2rem;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border-radius: 16px;
+            padding: 2.5rem;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .bento-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(74, 172, 225, 0.5), transparent);
+            opacity: 0;
+            transition: opacity 0.4s ease;
         }
 
         .bento-card.wide { grid-column: span 2; }
@@ -331,24 +364,33 @@ import Logo from './Logo.astro'
         .bento-card:hover {
             background: var(--bg-surface-hover);
             border-color: var(--border-hover);
-            transform: translateY(-2px);
-            box-shadow: 0 12px 24px -8px rgba(0, 0, 0, 0.4);
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.5);
         }
 
+        .bento-card:hover::before { opacity: 1; }
+
         .card-icon {
-            width: 40px; height: 40px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--border-default);
-            border-radius: 8px;
+            width: 48px; height: 48px;
+            background: rgba(74, 172, 225, 0.05);
+            border: 1px solid rgba(74, 172, 225, 0.2);
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 1.5rem;
-            color: var(--text-primary);
+            margin-bottom: 1.75rem;
+            color: var(--accent-cyan);
+            transition: all 0.3s ease;
+        }
+
+        .bento-card:hover .card-icon {
+            background: rgba(74, 172, 225, 0.1);
+            border-color: var(--accent-cyan);
+            box-shadow: 0 0 15px rgba(74, 172, 225, 0.15);
         }
 
         .bento-card h3 {
-            font-size: 1.15rem;
+            font-size: 1.25rem;
             margin-bottom: 0.75rem;
             color: var(--text-primary);
         }
@@ -356,7 +398,7 @@ import Logo from './Logo.astro'
         .bento-card p {
             color: var(--text-secondary);
             font-size: 0.95rem;
-            line-height: 1.6;
+            line-height: 1.7;
         }
 
         /* =========================================
@@ -372,65 +414,69 @@ import Logo from './Logo.astro'
         .gallery-card {
             background: var(--bg-surface);
             border: 1px solid var(--border-default);
-            border-radius: 12px;
+            border-radius: 16px;
             overflow: hidden;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             height: 100%;
             display: flex;
             flex-direction: column;
+            position: relative;
         }
 
         .gallery-card.wide { grid-column: span 2; }
 
         .gallery-card:hover {
             border-color: var(--border-hover);
-            transform: translateY(-2px);
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.5);
         }
 
         .gallery-image {
             position: relative;
             width: 100%;
             flex-grow: 1;
-            min-height: 280px;
+            min-height: 320px;
             overflow: hidden;
-            background: var(--bg-deep);
         }
 
         .gallery-image img {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
             object-fit: cover;
-            object-position: center center;
-            filter: grayscale(40%) contrast(1.05);
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-            display: block;
+            filter: grayscale(30%) contrast(1.1) brightness(0.8);
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .gallery-card:hover .gallery-image img {
-            filter: grayscale(0%) contrast(1);
-            transform: scale(1.05);
+            filter: grayscale(0%) contrast(1) brightness(0.9);
+            transform: scale(1.08);
         }
 
         .gallery-overlay {
             position: absolute;
             inset: 0;
-            background: linear-gradient(to top, rgba(2, 6, 23, 0.95) 0%, rgba(2, 6, 23, 0.4) 60%, transparent 100%);
+            background: linear-gradient(to top, rgba(2, 6, 23, 0.95) 0%, rgba(2, 6, 23, 0.2) 50%, transparent 100%);
             display: flex;
             align-items: flex-end;
-            padding: 1.75rem;
+            padding: 2rem;
             z-index: 2;
         }
 
+        .gallery-content {
+            transform: translateY(10px);
+            transition: transform 0.4s ease;
+        }
+
+        .gallery-card:hover .gallery-content { transform: translateY(0); }
+
         .gallery-tag {
             display: inline-block;
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: var(--text-primary);
-            padding: 0.25rem 0.75rem;
-            border-radius: 4px;
+            background: rgba(74, 172, 225, 0.15);
+            border: 1px solid rgba(74, 172, 225, 0.3);
+            color: var(--accent-cyan);
+            padding: 0.3rem 0.8rem;
+            border-radius: 6px;
             font-size: 0.7rem;
             font-weight: 600;
             font-family: 'JetBrains Mono', monospace;
@@ -441,7 +487,7 @@ import Logo from './Logo.astro'
         }
 
         .gallery-content h3 {
-            font-size: 1.25rem;
+            font-size: 1.35rem;
             margin-bottom: 0.5rem;
             color: var(--text-primary);
         }
@@ -449,17 +495,30 @@ import Logo from './Logo.astro'
         .gallery-content p {
             color: var(--text-secondary);
             font-size: 0.9rem;
-            line-height: 1.5;
+            line-height: 1.6;
+            opacity: 0.8;
         }
 
         /* =========================================
            СТАТИСТИКА
            ========================================= */
         .stats-section {
-            background: var(--bg-surface);
+            background: linear-gradient(180deg, rgba(15, 23, 42, 0.4) 0%, rgba(2, 6, 23, 0.8) 100%);
             border-top: 1px solid var(--border-default);
             border-bottom: 1px solid var(--border-default);
-            padding: 5rem 5%;
+            padding: 6rem 5%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stats-section::before {
+            content: '';
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 600px; height: 600px;
+            background: radial-gradient(circle, rgba(0, 78, 166, 0.1) 0%, transparent 70%);
+            pointer-events: none;
         }
 
         .stats-grid {
@@ -469,59 +528,94 @@ import Logo from './Logo.astro'
             grid-template-columns: repeat(4, 1fr);
             gap: 2rem;
             text-align: center;
+            position: relative;
+            z-index: 1;
         }
 
         .stat-item h3 {
-            font-size: 3rem;
-            color: var(--text-primary);
-            margin-bottom: 0.5rem;
+            font-size: clamp(2.5rem, 4vw, 3.5rem);
+            background: linear-gradient(180deg, #ffffff 0%, #4aace1 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.75rem;
             line-height: 1;
             font-weight: 700;
         }
 
         .stat-item p {
             color: var(--text-muted);
-            font-size: 0.9rem;
-            font-weight: 500;
+            font-size: 0.85rem;
+            font-weight: 600;
             text-transform: uppercase;
-            letter-spacing: 0.05em;
+            letter-spacing: 0.1em;
         }
 
         /* =========================================
-           КОНТАКТЫ
+           КОНТАКТЫ (Бесшовный футер)
            ========================================= */
         .contacts-section {
             text-align: center;
-            padding-bottom: 6rem;
+            padding: 8rem 5% 6rem;
+            position: relative;
         }
 
         .contact-block {
             display: inline-flex;
             flex-direction: column;
-            gap: 1rem;
-            margin-top: 2rem;
+            gap: 1.25rem;
+            margin-top: 3rem;
+            padding: 3rem;
+            background: var(--bg-surface);
+            border: 1px solid var(--border-default);
+            border-radius: 24px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .contact-block::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; height: 1px;
+            background: linear-gradient(90deg, transparent, var(--accent-cyan), transparent);
         }
 
         .contact-phone {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: clamp(1.5rem, 3vw, 2.25rem);
-            font-weight: 600;
+            font-family: 'Onest', sans-serif;
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 700;
             color: var(--text-primary);
             text-decoration: none;
-            transition: color 0.2s;
+            transition: all 0.3s ease;
+            letter-spacing: -0.02em;
         }
 
         .contact-phone:hover {
-            color: #3b82f6;
+            color: var(--accent-cyan);
+            text-shadow: 0 0 20px rgba(74, 172, 225, 0.3);
         }
 
         .contact-email {
             color: var(--text-secondary);
             text-decoration: none;
-            font-size: 1.1rem;
+            font-size: 1.2rem;
+            font-weight: 500;
             transition: color 0.2s;
         }
         .contact-email:hover { color: var(--text-primary); }
+
+        .footer-bottom {
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border-default);
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1280px;
+            margin-left: auto;
+            margin-right: auto;
+        }
 
         /* =========================================
            АДАПТИВНОСТЬ
@@ -535,28 +629,30 @@ import Logo from './Logo.astro'
         }
 
         @media (max-width: 768px) {
-            .nav-links { display: none; }
+            .nav-links { display: none; } /* Здесь можно добавить бургер-меню */
             .hero { padding-top: 6rem; text-align: center; }
             .hero-content { margin: 0 auto; }
             .hero-actions { justify-content: center; }
-            .hero-watermark { width: 350px; right: -20%; opacity: 0.03; }
+            .hero-watermark { width: 400px; right: -30%; opacity: 0.02; }
             
             .bento-grid, .gallery-grid { grid-template-columns: 1fr; }
             .bento-card.wide, .gallery-card.wide { grid-column: span 1; }
             .stats-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+            
+            .contact-block { padding: 2rem 1.5rem; width: 100%; }
+            .footer-bottom { flex-direction: column; gap: 1rem; text-align: center; }
         }
     </style>
 </head>
 <body>
 
-    <div class="bg-grid"></div>
+    <div class="bg-noise"></div>
+    <div class="bg-gradient-mesh"></div>
 
-    <!-- Навигация (БЕЛАЯ ШАПКА) -->
+    <!-- Навигация (Glassmorphism) -->
     <nav class="navbar">
         <div class="nav-container">
-            <a href="#" class="logo-link">
-                <Logo />
-            </a>
+            <a href="#" class="logo-link"><Logo/></a>
             <ul class="nav-links">
                 <li><a href="#services">Услуги</a></li>
                 <li><a href="#equipment">Техника</a></li>
@@ -568,8 +664,9 @@ import Logo from './Logo.astro'
 
     <!-- Hero Секция -->
     <section class="hero">
+        <!-- Упрощенный водяной знак на основе формы логотипа -->
         <svg class="hero-watermark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1124 380" aria-hidden="true">
-            <!-- ВСТАВЬТЕ СЮДА ВЕСЬ ВНУТРЕННИЙ КОД ВАШЕГО SVG ЛОГОТИПА -->
+            <path fill="currentColor" d="M 1200.1,1367.08 l -142.87,540.65 l 288.53,299.73 l 198.89,-98.04 l -2.8,-182.08 l -236.77,-105.11 l -14.25,-477.09 l -90.73,21.94 Z M 1854.95,920.949 l 157.13,-211.176 l -269.72,-86.25 Z" transform="scale(0.8) translate(-800, -600)" />
         </svg>
 
         <div class="hero-content">
@@ -578,10 +675,12 @@ import Logo from './Logo.astro'
             <p>Собственный парк техники и штат аттестованных инженеров. Строим магистральные и внутризоновые линии связи с гарантией качества и соблюдением сроков.</p>
             
             <div class="hero-actions">
-                <a href="#contacts" class="btn btn-primary-strict">Связаться с нами</a>
+                <a href="#contacts" class="btn btn-primary">
+                    Обсудить проект
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </a>
                 <a href="#equipment" class="btn btn-ghost">
                     Смотреть технику 
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                 </a>
             </div>
         </div>
@@ -598,7 +697,7 @@ import Logo from './Logo.astro'
         <div class="bento-grid">
             <div class="bento-card wide">
                 <div class="card-icon">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
                 </div>
                 <h3>Строительство магистральных ВОЛС</h3>
                 <p>Прокладка оптического кабеля в грунт (траншейным способом и методом ГНБ), а также подвес на опорах ЛЭП и контактной сети железных дорог.</p>
@@ -606,7 +705,7 @@ import Logo from './Logo.astro'
 
             <div class="bento-card">
                 <div class="card-icon">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
                 </div>
                 <h3>Сварка и монтаж муфт</h3>
                 <p>Квалифицированный монтаж оптических муфт и кроссов. Сварка волокон аппаратами Fujikura и Sumitomo.</p>
@@ -614,7 +713,7 @@ import Logo from './Logo.astro'
 
             <div class="bento-card">
                 <div class="card-icon">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
                 </div>
                 <h3>Рефлексометрия (OTDR)</h3>
                 <p>Проведение измерительных работ на всех этапах. Предоставляем полные пакеты документации и рефлектограммы.</p>
@@ -622,7 +721,7 @@ import Logo from './Logo.astro'
 
             <div class="bento-card wide">
                 <div class="card-icon">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
                 </div>
                 <h3>Сдача в эксплуатацию и гарантия</h3>
                 <p>Полное сопровождение процедуры приемки работ заказчиком. Гарантируем стабильную работу линии на протяжении всего срока эксплуатации.</p>
@@ -654,9 +753,7 @@ import Logo from './Logo.astro'
 
             <div class="gallery-card">
                 <div class="gallery-image">
-                    <img src={office.src} 
-                         alt="Современный офис компании" 
-                         loading="lazy">
+                    <img src={office.src} alt="Современный офис компании" loading="lazy">
                     <div class="gallery-overlay">
                         <div class="gallery-content">
                             <span class="gallery-tag">Офис</span>
@@ -669,9 +766,7 @@ import Logo from './Logo.astro'
 
             <div class="gallery-card">
                 <div class="gallery-image">
-                    <img src={svarka.src} 
-                         alt="Сварка оптического волокна" 
-                         loading="lazy">
+                    <img src={svarka.src} alt="Сварка оптического волокна" loading="lazy">
                     <div class="gallery-overlay">
                         <div class="gallery-content">
                             <span class="gallery-tag">Работа</span>
@@ -684,9 +779,7 @@ import Logo from './Logo.astro'
 
             <div class="gallery-card wide">
                 <div class="gallery-image">
-                    <img src={factory.src} 
-                         alt="Производственная база и склад" 
-                         loading="lazy">
+                    <img src={factory.src} alt="Производственная база и склад" loading="lazy">
                     <div class="gallery-overlay">
                         <div class="gallery-content">
                             <span class="gallery-tag">Инфраструктура</span>
@@ -721,8 +814,8 @@ import Logo from './Logo.astro'
         </div>
     </section>
 
-    <!-- Секция Контактов -->
-    <section class="section contacts-section" id="contacts">
+    <!-- Секция Контактов (Интегрированный футер) -->
+    <section class="contacts-section" id="contacts">
         <div class="section-header" style="margin: 0 auto 2rem; text-align: center;">
             <span class="section-label" style="justify-content: center;">Контакты</span>
             <h2>Готовы обсудить ваш проект</h2>
@@ -732,27 +825,44 @@ import Logo from './Logo.astro'
         <div class="contact-block">
             <a href="tel:+70000000000" class="contact-phone">+7 (XXX) XXX-XX-XX</a>
             <a href="mailto:info@yrt-telecom.ru" class="contact-email">info@yrt-telecom.ru</a>
-            <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 1rem; font-family: 'JetBrains Mono', monospace;">ПН–ПТ: 9:00 — 18:00 (МСК)</p>
+            <p class="mono" style="color: var(--text-muted); font-size: 0.85rem; margin-top: 1rem;">ПН–ПТ: 9:00 — 18:00 (МСК)</p>
+        </div>
+
+        <div class="footer-bottom">
+            <span>© 2026 ЮЖРЕГИОНТЕЛЕКОМ. Все права защищены.</span>
+            <span class="mono">Политика конфиденциальности</span>
         </div>
     </section>
 
     <script>
-        // Анимация счетчиков
+        // Анимация счетчиков с более плавным интерполированием
         const counters = document.querySelectorAll('.counter');
-        const speed = 150;
-
+        
         const animateCounters = () => {
             counters.forEach(counter => {
                 const target = +counter.getAttribute('data-target');
-                const count = +counter.innerText.replace(/\D/g,'');
-                const increment = target / speed;
+                const duration = 2000; // ms
+                const start = 0;
+                const startTime = performance.now();
 
-                if (count < target) {
-                    counter.innerText = Math.ceil(count + increment) + (target > 100 ? '+' : '');
-                    setTimeout(animateCounters, 10);
-                } else {
-                    counter.innerText = target + (target > 100 ? '+' : '');
-                }
+                const updateCount = (currentTime) => {
+                    const elapsed = currentTime - startTime;
+                    const progress = Math.min(elapsed / duration, 1);
+                    
+                    // Easing function (easeOutExpo)
+                    const ease = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
+                    
+                    const current = Math.floor(start + (target - start) * ease);
+                    counter.innerText = current + (target > 100 ? '+' : '');
+
+                    if (progress < 1) {
+                        requestAnimationFrame(updateCount);
+                    } else {
+                        counter.innerText = target + (target > 100 ? '+' : '');
+                    }
+                };
+                
+                requestAnimationFrame(updateCount);
             });
         };
 
@@ -763,10 +873,27 @@ import Logo from './Logo.astro'
                     observer.unobserve(entry.target);
                 }
             });
-        }, { threshold: 0.5 });
+        }, { threshold: 0.3 });
 
         document.querySelector('.stats-section').querySelectorAll('.stat-item').forEach(item => {
             observer.observe(item);
+        });
+
+        // Плавное появление секций при скролле
+        const fadeObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.section, .stats-section').forEach(section => {
+            section.style.opacity = '0';
+            section.style.transform = 'translateY(30px)';
+            section.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+            fadeObserver.observe(section);
         });
     </script>
 </body>
