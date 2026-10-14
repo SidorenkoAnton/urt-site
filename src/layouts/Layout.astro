@@ -1,474 +1,773 @@
 ---
-import Logo from "./Logo.astro";
+import cable from '../assets/cable.jpg'
+import office from '../assets/office.jpg'
+import factory from '../assets/factory.jpg'
+import svarka from '../assets/svarka.jpg'
+import Logo from './Logo.astro'
 ---
-
 <!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ЮЖРЕГИОНТЕЛЕКОМ — Строительство ВОЛС</title>
+    <title>ЮЖРЕГИОНТЕЛЕКОМ — Строительство ВОЛС под ключ</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Onest:wght@700;900&family=Golos+Text:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&family=Golos+Text:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            --bg-primary: #0A1628;
-            --bg-card: #0F2140;
-            --border: #142D54;
-            --text-primary: #FFFFFF;
-            --text-secondary: #B8E0FF;
-            --logo-dark: #004caa;
-            --logo-mid: #0466ba;
-            --logo-light: #0f82c5;
-            --logo-lighter: #219dd2;
-            --accent-amber: #FFB347;
-            --accent-amber-hover: #FFC875;
+            /* Строгая монохромная палитра */
+            --bg-deep: #020617;
+            --bg-surface: #0f172a;
+            --bg-surface-hover: #1e293b;
+            
+            --border-default: rgba(255, 255, 255, 0.06);
+            --border-hover: rgba(255, 255, 255, 0.15);
+            
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            
+            --accent-blue: #004ea6; /* Более тёмный синий для светлой шапки */
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        
         body {
             font-family: 'Golos Text', sans-serif;
-            background-color: var(--bg-primary);
+            background-color: var(--bg-deep);
             color: var(--text-primary);
             overflow-x: hidden;
+            line-height: 1.6;
             -webkit-font-smoothing: antialiased;
         }
 
-        /* Фоновый паттерн из логотипа */
-        .hero-background {
+        h1, h2, h3 { font-family: 'Onest', sans-serif; font-weight: 600; letter-spacing: -0.02em; }
+        .mono { font-family: 'JetBrains Mono', monospace; }
+
+        /* Фоновая сетка */
+        .bg-grid {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+            background-size: 48px 48px;
+            z-index: -2;
+            pointer-events: none;
+            mask-image: radial-gradient(circle at center, black 40%, transparent 100%);
+        }
+
+        /* =========================================
+           НАВИГАЦИЯ (БЕЛАЯ ШАПКА)
+           ========================================= */
+        .navbar {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 100;
+            background: #ffffff;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+            padding: 0.75rem 5%;
+        }
+
+        .nav-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* Логотип без подушки — просто чистый */
+        .logo-link {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            padding: 0;
+        }
+
+        .logo-svg {
+            height: 40px;
+            width: auto;
+            display: block;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: #0f172a; /* Тёмный текст на белом фоне */
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-blue); /* Синий при наведении */
+        }
+
+        .nav-phone {
+            color: #0f172a !important;
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 600;
+            font-size: 0.9rem !important;
+            padding: 0.5rem 1rem;
+            border: 1px solid rgba(0, 0, 0, 0.15);
+            border-radius: 6px;
+            transition: all 0.2s ease;
+        }
+        
+        .nav-phone:hover {
+            border-color: var(--accent-blue);
+            color: var(--accent-blue) !important;
+            background: rgba(0, 78, 166, 0.04);
+        }
+
+        /* =========================================
+           HERO СЕКЦИЯ
+           ========================================= */
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 8rem 5% 4rem;
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+
+        .hero-watermark {
+            position: absolute;
+            right: -5%;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 600px;
+            height: auto;
+            opacity: 0.03;
+            animation: rotate-slow 120s linear infinite;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        @keyframes rotate-slow {
+            from { transform: translateY(-50%) rotate(0deg); }
+            to { transform: translateY(-50%) rotate(360deg); }
+        }
+
+        .hero-content {
+            max-width: 700px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-default);
+            color: var(--text-secondary);
+            padding: 0.4rem 1rem;
+            border-radius: 100px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            font-family: 'JetBrains Mono', monospace;
+            margin-bottom: 2rem;
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        .hero-badge::before {
+            content: '';
+            width: 6px; height: 6px;
+            background: #3b82f6;
+            border-radius: 50%;
+            box-shadow: 0 0 8px #3b82f6;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(180deg, #ffffff 0%, #94a3b8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: fadeInUp 0.8s ease-out 0.2s forwards;
+            opacity: 0;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 3rem;
+            max-width: 550px;
+            line-height: 1.6;
+            animation: fadeInUp 0.8s ease-out 0.4s forwards;
+            opacity: 0;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            animation: fadeInUp 0.8s ease-out 0.6s forwards;
+            opacity: 0;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .btn {
+            padding: 0.85rem 1.75rem;
+            border-radius: 8px;
+            font-family: 'Onest', sans-serif;
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary-strict {
+            background: var(--text-primary);
+            color: var(--bg-deep);
+            border: 1px solid var(--text-primary);
+        }
+
+        .btn-primary-strict:hover {
+            background: #e2e8f0;
+            border-color: #e2e8f0;
+        }
+
+        .btn-ghost {
+            background: transparent;
+            color: var(--text-secondary);
+            border: 1px solid var(--border-default);
+        }
+
+        .btn-ghost:hover {
+            color: var(--text-primary);
+            border-color: var(--border-hover);
+            background: var(--bg-surface);
+        }
+
+        /* =========================================
+           СЕКЦИИ
+           ========================================= */
+        .section {
+            padding: 8rem 5%;
+            max-width: 1280px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .section-header {
+            margin-bottom: 4rem;
+            max-width: 600px;
+        }
+
+        .section-label {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            font-weight: 500;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+
+        .section-label::before {
+            content: '';
+            width: 16px;
+            height: 1px;
+            background: var(--text-muted);
+        }
+
+        .section-header h2 {
+            font-size: clamp(2rem, 4vw, 2.5rem);
+            line-height: 1.2;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .section-header p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        /* =========================================
+           КАРТОЧКИ УСЛУГ (BENTO)
+           ========================================= */
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+
+        .bento-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-default);
+            border-radius: 12px;
+            padding: 2rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .bento-card.wide { grid-column: span 2; }
+
+        .bento-card:hover {
+            background: var(--bg-surface-hover);
+            border-color: var(--border-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 12px 24px -8px rgba(0, 0, 0, 0.4);
+        }
+
+        .card-icon {
+            width: 40px; height: 40px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-default);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+        }
+
+        .bento-card h3 {
+            font-size: 1.15rem;
+            margin-bottom: 0.75rem;
+            color: var(--text-primary);
+        }
+
+        .bento-card p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        /* =========================================
+           ГАЛЕРЕЯ
+           ========================================= */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            align-items: stretch;
+        }
+
+        .gallery-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-default);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .gallery-card.wide { grid-column: span 2; }
+
+        .gallery-card:hover {
+            border-color: var(--border-hover);
+            transform: translateY(-2px);
+        }
+
+        .gallery-image {
+            position: relative;
+            width: 100%;
+            flex-grow: 1;
+            min-height: 280px;
+            overflow: hidden;
+            background: var(--bg-deep);
+        }
+
+        .gallery-image img {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            overflow: hidden;
-            z-index: 0;
+            object-fit: cover;
+            object-position: center center;
+            filter: grayscale(40%) contrast(1.05);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            display: block;
         }
 
-        .logo-pattern {
+        .gallery-card:hover .gallery-image img {
+            filter: grayscale(0%) contrast(1);
+            transform: scale(1.05);
+        }
+
+        .gallery-overlay {
             position: absolute;
-            top: 50%;
-            right: -5%;
-            transform: translateY(-50%);
-            width: 900px;
-            height: 900px;
-            opacity: 0.03;
-            animation: rotate 80s linear infinite;
-        }
-
-        @keyframes rotate {
-            from { transform: translateY(-50%) rotate(0deg); }
-            to { transform: translateY(-50%) rotate(360deg); }
-        }
-
-        /* Светящиеся линии */
-        .glow-line {
-            position: absolute;
-            height: 2px;
-            background: linear-gradient(90deg, 
-                transparent 0%, 
-                var(--logo-lighter) 50%, 
-                transparent 100%);
-            opacity: 0.3;
-            animation: pulse 3s ease-in-out infinite;
-        }
-
-        .glow-line-1 {
-            top: 20%;
-            left: 0;
-            width: 40%;
-            animation-delay: 0s;
-        }
-
-        .glow-line-2 {
-            top: 60%;
-            right: 0;
-            width: 35%;
-            animation-delay: 1s;
-        }
-
-        .glow-line-3 {
-            top: 40%;
-            left: 20%;
-            width: 30%;
-            animation-delay: 2s;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 0.2; }
-            50% { opacity: 0.5; }
-        }
-
-        /* Навигация */
-        .navbar {
-            position: relative;
-            z-index: 10;
+            inset: 0;
+            background: linear-gradient(to top, rgba(2, 6, 23, 0.95) 0%, rgba(2, 6, 23, 0.4) 60%, transparent 100%);
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 2rem 5%;
-            max-width: 1440px;
-            margin: 0 auto;
+            align-items: flex-end;
+            padding: 1.75rem;
+            z-index: 2;
         }
 
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            font-family: 'Onest', sans-serif;
-            font-weight: 900;
-            font-size: 1.5rem;
+        .gallery-tag {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             color: var(--text-primary);
-            text-decoration: none;
+            padding: 0.25rem 0.75rem;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            font-family: 'JetBrains Mono', monospace;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.75rem;
+            backdrop-filter: blur(4px);
         }
 
-        .logo-icon {
-            width: auto;
-            height: 56px;
+        .gallery-content h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
         }
 
-        .nav-menu {
-            display: flex;
-            gap: 2.5rem;
-            list-style: none;
-        }
-
-        .nav-menu a {
-            color: var(--text-secondary);
-            text-decoration: none;
-            font-size: 0.95rem;
-            transition: color 0.3s;
-        }
-
-        .nav-menu a:hover {
-            color: var(--logo-lighter);
-        }
-
-        .nav-lang {
+        .gallery-content p {
             color: var(--text-secondary);
             font-size: 0.9rem;
-            cursor: pointer;
-            transition: color 0.3s;
+            line-height: 1.5;
         }
 
-        .nav-lang:hover {
-            color: var(--logo-lighter);
+        /* =========================================
+           СТАТИСТИКА
+           ========================================= */
+        .stats-section {
+            background: var(--bg-surface);
+            border-top: 1px solid var(--border-default);
+            border-bottom: 1px solid var(--border-default);
+            padding: 5rem 5%;
         }
 
-        /* Hero контент */
-        .hero {
-            position: relative;
-            z-index: 1;
-            max-width: 1440px;
+        .stats-grid {
+            max-width: 1280px;
             margin: 0 auto;
-            padding: 4rem 5% 6rem;
-            min-height: calc(100vh - 100px);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .hero-content {
-            max-width: 900px;
-            margin-bottom: 4rem;
-        }
-
-        .hero-title {
-            font-family: 'Onest', sans-serif;
-            font-weight: 900;
-            font-size: clamp(2.5rem, 5vw, 4rem);
-            line-height: 1.1;
-            letter-spacing: -0.02em;
-            margin-bottom: 1.5rem;
-            opacity: 0;
-            animation: fadeInUp 0.8s ease-out 0.2s forwards;
-        }
-
-        .hero-subtitle {
-            font-size: clamp(1.1rem, 2vw, 1.4rem);
-            color: var(--text-secondary);
-            line-height: 1.6;
-            margin-bottom: 2.5rem;
-            opacity: 0;
-            animation: fadeInUp 0.8s ease-out 0.4s forwards;
-        }
-
-        .hero-buttons {
-            display: flex;
-            gap: 1rem;
-            flex-wrap: wrap;
-            opacity: 0;
-            animation: fadeInUp 0.8s ease-out 0.6s forwards;
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Кнопки */
-        .btn {
-            font-family: 'Onest', sans-serif;
-            font-weight: 700;
-            font-size: 1rem;
-            padding: 1rem 2rem;
-            border-radius: 0.5rem;
-            cursor: pointer;
-            transition: all 0.3s;
-            text-decoration: none;
-            display: inline-block;
-            border: none;
-        }
-
-        .btn-primary {
-            background-color: var(--accent-amber);
-            color: var(--bg-primary);
-        }
-
-        .btn-primary:hover {
-            background-color: var(--accent-amber-hover);
-            box-shadow: 0 0 40px rgba(255, 179, 71, 0.3);
-            transform: translateY(-2px);
-        }
-
-        .btn-secondary {
-            background-color: transparent;
-            color: var(--text-primary);
-            border: 2px solid var(--border);
-        }
-
-        .btn-secondary:hover {
-            border-color: var(--logo-lighter);
-            color: var(--logo-lighter);
-            transform: translateY(-2px);
-        }
-
-        /* Статистика */
-        .stats {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.5rem;
-            opacity: 0;
-            animation: fadeInUp 0.8s ease-out 0.8s forwards;
-        }
-
-        .stat-card {
-            background-color: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 1rem;
-            padding: 2rem;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
             text-align: center;
-            transition: all 0.3s;
         }
 
-        .stat-card:hover {
-            border-color: var(--logo-lighter);
-            box-shadow: 0 0 40px rgba(33, 157, 210, 0.15);
-            transform: translateY(-4px);
-        }
-
-        .stat-number {
-            font-family: 'Onest', sans-serif;
-            font-weight: 900;
+        .stat-item h3 {
             font-size: 3rem;
             color: var(--text-primary);
             margin-bottom: 0.5rem;
             line-height: 1;
+            font-weight: 700;
         }
 
-        .stat-label {
+        .stat-item p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* =========================================
+           КОНТАКТЫ
+           ========================================= */
+        .contacts-section {
+            text-align: center;
+            padding-bottom: 6rem;
+        }
+
+        .contact-block {
+            display: inline-flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .contact-phone {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: clamp(1.5rem, 3vw, 2.25rem);
+            font-weight: 600;
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .contact-phone:hover {
+            color: #3b82f6;
+        }
+
+        .contact-email {
             color: var(--text-secondary);
-            font-size: 0.95rem;
+            text-decoration: none;
+            font-size: 1.1rem;
+            transition: color 0.2s;
+        }
+        .contact-email:hover { color: var(--text-primary); }
+
+        /* =========================================
+           АДАПТИВНОСТЬ
+           ========================================= */
+        @media (max-width: 1024px) {
+            .bento-grid { grid-template-columns: repeat(2, 1fr); }
+            .bento-card.wide { grid-column: span 2; }
+            .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+            .gallery-card.wide { grid-column: span 2; }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 3rem; }
         }
 
-        /* Адаптивность */
         @media (max-width: 768px) {
-            .navbar {
-                padding: 1.5rem 5%;
-            }
-
-            .nav-menu {
-                display: none;
-            }
-
-            .hero {
-                padding: 2rem 5% 4rem;
-            }
-
-            .hero-buttons {
-                flex-direction: column;
-            }
-
-            .btn {
-                width: 100%;
-                text-align: center;
-            }
-
-            .stats {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .stat-card {
-                padding: 1.5rem;
-            }
-
-            .stat-number {
-                font-size: 2.5rem;
-            }
-
-            .logo-pattern {
-                width: 500px;
-                height: 500px;
-                right: -20%;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .stats {
-                grid-template-columns: 1fr;
-            }
-
-            .logo-pattern {
-                width: 350px;
-                height: 350px;
-            }
+            .nav-links { display: none; }
+            .hero { padding-top: 6rem; text-align: center; }
+            .hero-content { margin: 0 auto; }
+            .hero-actions { justify-content: center; }
+            .hero-watermark { width: 350px; right: -20%; opacity: 0.03; }
+            
+            .bento-grid, .gallery-grid { grid-template-columns: 1fr; }
+            .bento-card.wide, .gallery-card.wide { grid-column: span 1; }
+            .stats-grid { grid-template-columns: 1fr; gap: 2.5rem; }
         }
     </style>
 </head>
 <body>
-    <!-- Фоновые элементы -->
-    <div class="hero-background">
-        <!-- Точный логотип как фоновый паттерн -->
-        <svg class="logo-pattern" viewBox="100 100 230 200" xmlns="http://www.w3.org/2000/svg">
-            <g transform="matrix(1.3333333,0,0,-1.3333333,0,380)">
-                <g transform="scale(0.1)">
-                    <path style="fill:#004caa;fill-opacity:1;fill-rule:evenodd;stroke:none" d="m 1200.1,1367.08 -142.87,540.65 288.53,299.73 198.89,-98.04 -2.8,-182.08 -236.77,-105.11 -14.25,-477.09 -90.73,21.94" />
-                    <path style="fill:#0466ba;fill-opacity:1;fill-rule:evenodd;stroke:none" d="m 1412.88,1740.49 472.96,298.35 372.44,-185.43 -33.92,-219.13 -174.55,-51.91 -171.24,194.38 -459.43,-129.4 -6.26,93.14" />
-                    <path style="fill:#0f82c5;fill-opacity:1;fill-rule:evenodd;stroke:none" d="m 1868.59,1676.37 413.45,-376.52 -79.63,-408.35 -220.26,-25.617 -96.48,154.447 141.8,216.79 -247,408.42 88.12,30.83" />
-                    <path style="fill:#219dd2;fill-opacity:1;fill-rule:evenodd;stroke:none" d="m 1903.77,1207.39 -216.85,-515.449 -411.5,-61.296 -97.7,199.062 113.37,142.516 251.69,-61.274 302.51,369.201 58.48,-72.76" />
-                    <path style="fill:#0d83c6;fill-opacity:1;fill-rule:evenodd;stroke:none" d="m 1500.57,1019.2 -558.449,29.12 -197.262,366.31 154.114,159.42 172.527,-58.28 27.74,-257.56 449.94,-159.32 -48.61,-79.69" />
-                    <path style="fill:#219dd2;fill-opacity:1;fill-rule:evenodd;stroke:none" d="m 1628.91,1963.87 -2.19,263.21 268.64,-89.57 z" />
-                    <path style="fill:#0d83c6;fill-opacity:1;fill-rule:evenodd;stroke:none" d="m 2123.57,1526.64 249.53,83.8 -1.75,-283.17 z" />
-                    <path style="fill:#004caa;fill-opacity:1;fill-rule:evenodd;stroke:none" d="m 1854.95,920.949 157.13,-211.176 -269.72,-86.25 z" />
-                    <path style="fill:#0466ba;fill-opacity:1;fill-rule:evenodd;stroke:none" d="M 1210.02,980.02 1058.06,765.09 892.332,994.707 Z" />
-                    <path style="fill:#0f82c5;fill-opacity:1;fill-rule:evenodd;stroke:none" d="m 1062.81,1608.59 -251.486,77.72 166.824,228.83 z" />
-                </g>
-            </g>
-        </svg>
-        
-        <div class="glow-line glow-line-1"></div>
-        <div class="glow-line glow-line-2"></div>
-        <div class="glow-line glow-line-3"></div>
-    </div>
 
-    <!-- Навигация -->
+    <div class="bg-grid"></div>
+
+    <!-- Навигация (БЕЛАЯ ШАПКА) -->
     <nav class="navbar">
-        <a href="#" class="logo">
-           <Logo/>
-        </a>
-        
-        <ul class="nav-menu">
-            <li><a href="#services">Услуги</a></li>
-            <li><a href="#projects">Объекты</a></li>
-            <li><a href="#equipment">Техника</a></li>
-            <li><a href="#licenses">Лицензии</a></li>
-            <li><a href="#contacts">Контакты</a></li>
-        </ul>
-        
-        <span class="nav-lang">RU / EN</span>
+        <div class="nav-container">
+            <a href="#" class="logo-link">
+                <Logo />
+            </a>
+            <ul class="nav-links">
+                <li><a href="#services">Услуги</a></li>
+                <li><a href="#equipment">Техника</a></li>
+                <li><a href="#stats">Опыт</a></li>
+                <li><a href="tel:+70000000000" class="nav-phone">+7 (XXX) XXX-XX-XX</a></li>
+            </ul>
+        </div>
     </nav>
 
-    <!-- Hero секция -->
+    <!-- Hero Секция -->
     <section class="hero">
+        <svg class="hero-watermark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1124 380" aria-hidden="true">
+            <!-- ВСТАВЬТЕ СЮДА ВЕСЬ ВНУТРЕННИЙ КОД ВАШЕГО SVG ЛОГОТИПА -->
+        </svg>
+
         <div class="hero-content">
-            <h1 class="hero-title">
-                ПРОЕКТИРОВАНИЕ И СТРОИТЕЛЬСТВО ВОЛОКОННО-ОПТИЧЕСКИХ ЛИНИЙ СВЯЗИ
-            </h1>
+            <div class="hero-badge">Допуски СРО · Работаем по всей РФ</div>
+            <h1>Проектирование и строительство ВОЛС под ключ</h1>
+            <p>Собственный парк техники и штат аттестованных инженеров. Строим магистральные и внутризоновые линии связи с гарантией качества и соблюдением сроков.</p>
             
-            <p class="hero-subtitle">
-                Собственный парк техники · Допуски СРО · Объекты любой сложности по всей России
-            </p>
-            
-            <div class="hero-buttons">
-                <a href="#contacts" class="btn btn-primary">Рассчитать стоимость</a>
-                <a href="#projects" class="btn btn-secondary">Наши объекты →</a>
+            <div class="hero-actions">
+                <a href="#contacts" class="btn btn-primary-strict">Связаться с нами</a>
+                <a href="#equipment" class="btn btn-ghost">
+                    Смотреть технику 
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </a>
             </div>
         </div>
+    </section>
 
-        <!-- Статистика -->
-        <div class="stats">
-            <div class="stat-card">
-                <div class="stat-number" data-target="4500">0</div>
-                <div class="stat-label">км ВОЛС построено</div>
+    <!-- Секция Услуг -->
+    <section class="section" id="services">
+        <div class="section-header">
+            <span class="section-label">Направления</span>
+            <h2>Комплексные решения для связи</h2>
+            <p>Выполняем весь цикл работ: от изысканий и проектирования до сдачи в эксплуатацию и паспортизации</p>
+        </div>
+
+        <div class="bento-grid">
+            <div class="bento-card wide">
+                <div class="card-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+                </div>
+                <h3>Строительство магистральных ВОЛС</h3>
+                <p>Прокладка оптического кабеля в грунт (траншейным способом и методом ГНБ), а также подвес на опорах ЛЭП и контактной сети железных дорог.</p>
             </div>
-            
-            <div class="stat-card">
-                <div class="stat-number" data-target="12">0</div>
-                <div class="stat-label">лет на рынке</div>
+
+            <div class="bento-card">
+                <div class="card-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                </div>
+                <h3>Сварка и монтаж муфт</h3>
+                <p>Квалифицированный монтаж оптических муфт и кроссов. Сварка волокон аппаратами Fujikura и Sumitomo.</p>
             </div>
-            
-            <div class="stat-card">
-                <div class="stat-number" data-target="85">0</div>
-                <div class="stat-label">единиц техники</div>
+
+            <div class="bento-card">
+                <div class="card-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+                </div>
+                <h3>Рефлексометрия (OTDR)</h3>
+                <p>Проведение измерительных работ на всех этапах. Предоставляем полные пакеты документации и рефлектограммы.</p>
             </div>
-            
-            <div class="stat-card">
-                <div class="stat-number" data-target="15">0</div>
-                <div class="stat-label">лет гарантии</div>
+
+            <div class="bento-card wide">
+                <div class="card-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                </div>
+                <h3>Сдача в эксплуатацию и гарантия</h3>
+                <p>Полное сопровождение процедуры приемки работ заказчиком. Гарантируем стабильную работу линии на протяжении всего срока эксплуатации.</p>
             </div>
+        </div>
+    </section>
+
+    <!-- Секция Техники -->
+    <section class="section" id="equipment">
+        <div class="section-header">
+            <span class="section-label">Ресурсы</span>
+            <h2>Парк техники и инфраструктура</h2>
+            <p>Собственное оборудование и современные мощности для выполнения проектов любой сложности</p>
+        </div>
+
+        <div class="gallery-grid">
+            <div class="gallery-card wide">
+                <div class="gallery-image">
+                    <img src={cable.src} alt="Кабелеукладочная техника на объекте" loading="lazy">
+                    <div class="gallery-overlay">
+                        <div class="gallery-content">
+                            <span class="gallery-tag">Техника</span>
+                            <h3>Кабелеукладочная техника</h3>
+                            <p>Собственный парк из 85+ единиц специализированной техники для прокладки ВОЛС в любых условиях</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="gallery-card">
+                <div class="gallery-image">
+                    <img src={office.src} 
+                         alt="Современный офис компании" 
+                         loading="lazy">
+                    <div class="gallery-overlay">
+                        <div class="gallery-content">
+                            <span class="gallery-tag">Офис</span>
+                            <h3>Главный офис</h3>
+                            <p>Инженерный центр с современным оборудованием</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="gallery-card">
+                <div class="gallery-image">
+                    <img src={svarka.src} 
+                         alt="Сварка оптического волокна" 
+                         loading="lazy">
+                    <div class="gallery-overlay">
+                        <div class="gallery-content">
+                            <span class="gallery-tag">Работа</span>
+                            <h3>Сварочный участок</h3>
+                            <p>Аппараты Fujikura и Sumitomo, контроль качества каждого соединения</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="gallery-card wide">
+                <div class="gallery-image">
+                    <img src={factory.src}
+                         alt="Производственная база и склад" 
+                         loading="lazy">
+                    <div class="gallery-overlay">
+                        <div class="gallery-content">
+                            <span class="gallery-tag">Инфраструктура</span>
+                            <h3>Производственная база</h3>
+                            <p>Собственная территория с крытым складом, стоянкой техники и ремонтными мастерскими</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Секция Статистики -->
+    <section class="stats-section" id="stats">
+        <div class="stats-grid">
+            <div class="stat-item">
+                <h3 class="mono counter" data-target="4500">0</h3>
+                <p>Километров ВОЛС</p>
+            </div>
+            <div class="stat-item">
+                <h3 class="mono counter" data-target="12">0</h3>
+                <p>Лет на рынке</p>
+            </div>
+            <div class="stat-item">
+                <h3 class="mono counter" data-target="85">0</h3>
+                <p>Единиц техники</p>
+            </div>
+            <div class="stat-item">
+                <h3 class="mono counter" data-target="100">0</h3>
+                <p>% Сдачи с 1-го раза</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Секция Контактов -->
+    <section class="section contacts-section" id="contacts">
+        <div class="section-header" style="margin: 0 auto 2rem; text-align: center;">
+            <span class="section-label" style="justify-content: center;">Контакты</span>
+            <h2>Готовы обсудить ваш проект</h2>
+            <p>Свяжитесь с нами для расчета стоимости или получения технической консультации</p>
+        </div>
+        
+        <div class="contact-block">
+            <a href="tel:+70000000000" class="contact-phone">+7 (XXX) XXX-XX-XX</a>
+            <a href="mailto:info@yrt-telecom.ru" class="contact-email">info@yrt-telecom.ru</a>
+            <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 1rem; font-family: 'JetBrains Mono', monospace;">ПН–ПТ: 9:00 — 18:00 (МСК)</p>
         </div>
     </section>
 
     <script>
         // Анимация счетчиков
-        const counters = document.querySelectorAll('.stat-number');
-        const speed = 200;
+        const counters = document.querySelectorAll('.counter');
+        const speed = 150;
 
-        const animateCounter = (counter) => {
-            const target = +counter.getAttribute('data-target');
-            const count = +counter.innerText;
-            const increment = target / speed;
-
-            if (count < target) {
-                counter.innerText = Math.ceil(count + increment);
-                setTimeout(() => animateCounter(counter), 10);
-            } else {
-                counter.innerText = target + (target === 4500 ? '+' : '');
-            }
-        };
-
-        // Запуск анимации при загрузке
-        window.addEventListener('load', () => {
+        const animateCounters = () => {
             counters.forEach(counter => {
-                setTimeout(() => animateCounter(counter), 1000);
-            });
-        });
+                const target = +counter.getAttribute('data-target');
+                const count = +counter.innerText.replace(/\D/g,'');
+                const increment = target / speed;
 
-        // Плавная прокрутка для якорных ссылок
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
+                if (count < target) {
+                    counter.innerText = Math.ceil(count + increment) + (target > 100 ? '+' : '');
+                    setTimeout(animateCounters, 10);
+                } else {
+                    counter.innerText = target + (target > 100 ? '+' : '');
                 }
             });
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    animateCounters();
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        document.querySelector('.stats-section').querySelectorAll('.stat-item').forEach(item => {
+            observer.observe(item);
         });
     </script>
 </body>
