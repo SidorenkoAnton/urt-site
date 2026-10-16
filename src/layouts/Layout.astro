@@ -10,7 +10,7 @@ import Logo from './Logo.astro'
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>ЮЖРЕГИОНТЕЛЕКОМ — Строительство ВОЛС под ключ</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -29,18 +29,20 @@ import Logo from './Logo.astro'
             --accent-glow: rgba(0, 78, 166, 0.15);
             --accent-blue: #004ea6;
             --accent-cyan: #4aace1;
+            --nav-height: 4.5rem;
         }
 
-        html, body {
-            width: 100%;
-            max-width: 100%;
-            overflow-x: hidden;
-            margin: 0;
+        * { 
+            box-sizing: border-box; 
+            margin: 0; 
             padding: 0;
         }
 
-        * { box-sizing: border-box; }
-        html { scroll-behavior: smooth; }
+        html { 
+            scroll-behavior: smooth;
+            width: 100%;
+            overflow-x: clip;
+        }
         
         body {
             font-family: 'Golos Text', sans-serif;
@@ -48,12 +50,16 @@ import Logo from './Logo.astro'
             color: var(--text-primary);
             line-height: 1.6;
             -webkit-font-smoothing: antialiased;
+            width: 100%;
+            overflow-x: clip;
             position: relative;
+            /* FIX: Улучшает отзывчивость touch-событий */
+            touch-action: manipulation;
         }
 
         .bg-noise {
             position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
+            inset: 0;
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
             pointer-events: none;
             z-index: -1;
@@ -61,7 +67,7 @@ import Logo from './Logo.astro'
 
         .bg-gradient-mesh {
             position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
+            inset: 0;
             background: 
                 radial-gradient(circle at 15% 50%, rgba(0, 78, 166, 0.08) 0%, transparent 50%),
                 radial-gradient(circle at 85% 30%, rgba(74, 172, 225, 0.05) 0%, transparent 50%);
@@ -74,26 +80,24 @@ import Logo from './Logo.astro'
             font-weight: 700; 
             letter-spacing: -0.03em; 
             overflow-wrap: break-word;
-            word-wrap: break-word;
         }
         .mono { font-family: 'JetBrains Mono', monospace; }
 
         /* =========================================
-           НАВИГАЦИЯ
+           НАВИГАЦИЯ (БЕЗ GPU-КОСТЫЛЕЙ)
            ========================================= */
         .navbar {
             position: fixed;
-            top: 0; left: 0; right: 0;
-            z-index: 9999;
-            background: rgba(2, 6, 23, 0.9); 
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(2, 6, 23, 0.95);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
             border-bottom: 1px solid var(--border-default);
             padding: 1rem 5%;
-            transition: all 0.3s ease;
-            transform: translateZ(0);
-            -webkit-transform: translateZ(0);
-            will-change: transform;
+            /* FIX: Убраны will-change и transform: translateZ(0) - они блокируют скролл */
         }
 
         .nav-container {
@@ -103,6 +107,7 @@ import Logo from './Logo.astro'
             justify-content: space-between;
             align-items: center;
             width: 100%;
+            gap: 1rem;
         }
 
         .logo-link {
@@ -160,7 +165,6 @@ import Logo from './Logo.astro'
         .nav-phone:hover {
             border-color: var(--accent-cyan);
             background: rgba(74, 172, 225, 0.1);
-            box-shadow: 0 0 15px rgba(74, 172, 225, 0.1);
         }
         .nav-phone::after { display: none; }
 
@@ -168,16 +172,15 @@ import Logo from './Logo.astro'
         .mobile-phone { display: none; }
 
         /* =========================================
-           HERO СЕКЦИЯ (FIX: МОБИЛЬНАЯ ВЫСОТА И ОТСТУПЫ)
+           HERO СЕКЦИЯ
            ========================================= */
         .hero {
             position: relative;
-            /* FIX: 100dvh идеально работает на мобильных, учитывая адресную строку браузера */
-            min-height: 100vh; 
-            min-height: 100dvh; 
+            min-height: 100vh;
+            min-height: 100dvh;
             display: flex;
             align-items: center;
-            padding: 8rem 5% 4rem;
+            padding: calc(var(--nav-height) + 2rem) 5% 4rem;
             max-width: 1280px;
             margin: 0 auto;
             width: 100%;
@@ -189,7 +192,7 @@ import Logo from './Logo.astro'
             top: 50%;
             transform: translateY(-50%);
             width: 100%;
-            max-width: 600px; 
+            max-width: 600px;
             height: auto;
             opacity: 0.02;
             z-index: -1;
@@ -470,12 +473,11 @@ import Logo from './Logo.astro'
 
         .gallery-image img {
             position: absolute;
-            top: 0; left: 0;
+            inset: 0;
             width: 100%; height: 100%;
             object-fit: cover;
             filter: grayscale(30%) contrast(1.1) brightness(0.8);
             transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-            max-width: 100%;
         }
 
         .gallery-card:hover .gallery-image img {
@@ -653,7 +655,7 @@ import Logo from './Logo.astro'
         }
 
         /* =========================================
-           АДАПТИВНОСТЬ (ФИНАЛЬНАЯ ПОЛИРОВКА)
+           АДАПТИВНОСТЬ (ПОЛНОСТЬЮ АДАПТИВНАЯ, БЕЗ PX)
            ========================================= */
         @media (max-width: 1024px) {
             .bento-grid { grid-template-columns: repeat(2, 1fr); }
@@ -664,42 +666,49 @@ import Logo from './Logo.astro'
         }
 
         @media (max-width: 768px) {
+            :root {
+                --nav-height: 4rem;
+            }
+
             .nav-links { display: none; }
             .desktop-phone { display: none; }
+            
+            /* FIX: Кнопка "Позвонить" адаптируется к размеру контейнера, не прилипает к краям */
             .mobile-phone { 
-                display: inline-flex !important; 
-                font-size: 0.8rem !important; 
+                display: inline-flex !important;
+                font-size: 0.75rem !important;
                 padding: 0.5rem 0.8rem !important;
+                margin-left: auto;
             }
             
-            /* FIX: Увеличен верхний отступ, чтобы плашка не прилипала к хедеру */
             .hero { 
-                padding-top: 7.5rem; 
-                padding-bottom: 3rem;
-                /* FIX: 100dvh гарантирует, что блок займет ровно высоту экрана мобильного браузера */
-                min-height: 100dvh; 
+                padding-top: calc(var(--nav-height) + 1.5rem);
+                padding-bottom: 2rem;
+                min-height: 100dvh;
+                align-items: flex-start;
+                padding-top: 30vh;
             }
             
             .hero-content { margin: 0 auto; text-align: center; }
-            .hero h1 { font-size: clamp(2rem, 7vw, 2.8rem); margin-bottom: 1rem; }
+            .hero h1 { font-size: clamp(1.8rem, 7vw, 2.5rem); margin-bottom: 1rem; }
             .hero p { font-size: 1rem; margin-left: auto; margin-right: auto; margin-bottom: 2rem; }
             
-            /* FIX: Добавлен отступ сверху для плашки, чтобы визуально отделить её от хедера */
             .hero-badge { 
-                margin-top: 0.5rem; 
-                margin-bottom: 1.5rem; 
+                margin-bottom: 1.5rem;
+                font-size: 0.7rem;
+                padding: 0.4rem 1rem;
             }
             
             .hero-actions { 
-                flex-direction: column; 
-                width: 100%; 
-                gap: 0.75rem; /* Чуть компактнее кнопки */
+                flex-direction: column;
+                width: 100%;
+                gap: 0.75rem;
             }
             .btn { width: 100%; min-width: unset; }
             
             .hero-watermark { 
-                max-width: 250px; 
-                right: -20px; 
+                max-width: 250px;
+                right: -10%;
                 opacity: 0.03;
             }
 
@@ -727,9 +736,8 @@ import Logo from './Logo.astro'
         }
 
         @media (max-width: 380px) {
-            .mobile-phone { font-size: 0.75rem !important; padding: 0.4rem 0.6rem !important; }
-            .hero { padding-top: 7rem; } /* Чуть компактнее для совсем маленьких экранов */
-            .hero h1 { font-size: 1.75rem; }
+            .mobile-phone { font-size: 0.7rem !important; padding: 0.4rem 0.6rem !important; }
+            .hero h1 { font-size: 1.6rem; }
             .contact-phone { font-size: 1.25rem; }
             .stats-grid { grid-template-columns: 1fr; }
         }
