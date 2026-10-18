@@ -1,13 +1,15 @@
 ---
 import LogoMark from './LogoMark.astro';
 import { site, navigation } from '../data/site';
+import Logo from '../layouts/Logo.astro';
 ---
 
 <header class="header" data-header>
   <div class="container header__inner">
     <a class="brand" href="/" aria-label={`${site.name} — на главную`}>
-      <span class="brand__mark"><LogoMark /></span>
-      <span class="brand__text">{site.name}</span>
+      <Logo/>
+      <!-- <span class="brand__mark"><LogoMark /></span>
+      <span class="brand__text">{site.name}</span> -->
     </a>
 
     <nav class="nav" aria-label="Основная навигация">
@@ -64,9 +66,7 @@ import { site, navigation } from '../data/site';
       document.body.classList.toggle('nav-open', open);
     };
 
-    burger.addEventListener('click', () => {
-      setOpen(panel.hidden);
-    });
+    burger.addEventListener('click', () => setOpen(panel.hidden));
 
     panel.querySelectorAll('[data-nav-link]').forEach((link) => {
       link.addEventListener('click', () => setOpen(false));
@@ -89,10 +89,11 @@ import { site, navigation } from '../data/site';
   .header {
     position: sticky;
     top: 0;
-    z-index: 60;
-    background: rgba(245, 242, 236, 0.92);
+    z-index: 70;
+    background: rgba(6, 26, 36, 0.94);
     backdrop-filter: blur(12px);
-    border-bottom: 1px solid var(--line);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--on-dark);
   }
 
   .header__inner {
@@ -111,7 +112,7 @@ import { site, navigation } from '../data/site';
 
   .brand__mark {
     display: flex;
-    height: 2.2rem;
+    height: 2.1rem;
   }
 
   .brand__mark :global(svg) {
@@ -120,9 +121,9 @@ import { site, navigation } from '../data/site';
   }
 
   .brand__text {
-    font-size: 0.8rem;
+    font-size: 0.79rem;
     font-weight: 600;
-    letter-spacing: 0.14em;
+    letter-spacing: 0.15em;
     line-height: 1;
   }
 
@@ -140,9 +141,10 @@ import { site, navigation } from '../data/site';
     position: relative;
     display: inline-block;
     padding-block: 0.35rem;
-    color: var(--ink-soft);
+    color: var(--on-dark-muted);
     font-size: 0.9rem;
     font-weight: 500;
+    transition: color 0.2s var(--ease);
   }
 
   .nav a::after {
@@ -152,10 +154,14 @@ import { site, navigation } from '../data/site';
     bottom: 0;
     width: 100%;
     height: 1px;
-    background: var(--accent);
+    background: var(--accent-bright);
     transform: scaleX(0);
     transform-origin: left;
     transition: transform 0.25s var(--ease);
+  }
+
+  .nav a:hover {
+    color: var(--on-dark);
   }
 
   .nav a:hover::after {
@@ -170,19 +176,20 @@ import { site, navigation } from '../data/site';
   }
 
   .header__phone {
-    font-size: 0.92rem;
+    font-size: 0.9rem;
     font-weight: 600;
     white-space: nowrap;
+    font-variant-numeric: tabular-nums;
   }
 
   .header__phone:hover {
-    color: var(--accent);
+    color: var(--accent-bright);
   }
 
   .header__cta {
-    min-height: 2.6rem;
-    padding: 0.5rem 1.05rem;
-    font-size: 0.88rem;
+    min-height: 2.55rem;
+    padding: 0.45rem 1rem;
+    font-size: 0.86rem;
   }
 
   .burger {
@@ -190,10 +197,10 @@ import { site, navigation } from '../data/site';
     flex-direction: column;
     justify-content: center;
     gap: 6px;
-    width: 2.75rem;
-    height: 2.75rem;
+    width: 2.7rem;
+    height: 2.7rem;
     padding: 0;
-    border: 1px solid var(--line-strong);
+    border: 1px solid rgba(255, 255, 255, 0.24);
     border-radius: var(--radius);
     background: transparent;
     cursor: pointer;
@@ -201,10 +208,10 @@ import { site, navigation } from '../data/site';
 
   .burger span {
     display: block;
-    width: 1.15rem;
+    width: 1.1rem;
     height: 1.5px;
     margin-inline: auto;
-    background: var(--ink);
+    background: var(--on-dark);
     transition: transform 0.2s var(--ease);
   }
 
@@ -223,9 +230,8 @@ import { site, navigation } from '../data/site';
     max-height: calc(100dvh - var(--header-h));
     overflow-y: auto;
     padding-block: 0.5rem 1.5rem;
-    background: var(--paper);
-    border-bottom: 1px solid var(--line);
-    box-shadow: 0 18px 30px -20px rgba(16, 32, 46, 0.35);
+    background: var(--navy);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
   }
 
   .mobile-nav ul {
@@ -233,14 +239,13 @@ import { site, navigation } from '../data/site';
   }
 
   .mobile-nav li + li {
-    border-top: 1px solid var(--line);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
   }
 
   .mobile-nav li a {
     display: block;
     padding-block: 0.9rem;
     font-size: 1.05rem;
-    font-weight: 500;
   }
 
   .mobile-nav__footer {
@@ -248,7 +253,7 @@ import { site, navigation } from '../data/site';
     flex-direction: column;
     gap: 0.35rem;
     padding-top: 1.25rem;
-    border-top: 1px solid var(--line);
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
   }
 
   .mobile-nav__phone {
@@ -257,13 +262,12 @@ import { site, navigation } from '../data/site';
   }
 
   .mobile-nav__mail {
-    color: var(--accent);
-    font-weight: 500;
+    color: var(--accent-bright);
   }
 
   .mobile-nav__hours {
-    color: var(--muted);
-    font-size: 0.85rem;
+    color: var(--on-dark-muted);
+    font-size: 0.82rem;
   }
 
   @media (max-width: 1024px) {
@@ -286,18 +290,18 @@ import { site, navigation } from '../data/site';
     }
 
     .header__cta {
-      min-height: 2.5rem;
-      padding: 0.45rem 0.85rem;
-      font-size: 0.82rem;
+      min-height: 2.45rem;
+      padding: 0.4rem 0.8rem;
+      font-size: 0.8rem;
     }
 
     .brand__mark {
-      height: 1.9rem;
+      height: 1.85rem;
     }
 
     .brand__text {
-      font-size: 0.72rem;
-      letter-spacing: 0.12em;
+      font-size: 0.7rem;
+      letter-spacing: 0.11em;
     }
   }
 

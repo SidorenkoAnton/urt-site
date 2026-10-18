@@ -1,10 +1,10 @@
 ---
 import { Image } from 'astro:assets';
-import { equipmentPhotos } from '../data/site';
-import factory from '../assets/factory.jpg';
-import office from '../assets/office.jpg';
-import svarka from '../assets/svarka.jpg';
+import { equipment } from '../data/site';
 import cable from '../assets/cable.jpg';
+import factory from '../assets/factory.jpg';
+import svarka from '../assets/svarka.jpg';
+import office from '../assets/office.jpg';
 
 const images = [cable, factory, svarka, office];
 const alts = [
@@ -13,100 +13,135 @@ const alts = [
   'Сварочный участок и оптические муфты',
   'Офис и инженерный центр',
 ];
+
+const facts = [
+  'Кабелеукладчики и тяговые машины',
+  'Оборудование для грунта и ГНБ',
+  'Сварка Fujikura и Sumitomo',
+  'Измерительные комплексы OTDR',
+];
 ---
 
-<section class="equipment" id="equipment">
-  <div class="container equipment__grid">
-    <div class="equipment__copy">
-      <p class="eyebrow">04 — Техника и база</p>
-      <h2>Своя техника, склад и ремонтная база</h2>
-      <p class="lead">
-        85 единиц специализированной техники, крытый склад и мастерские позволяют
-        не зависеть от субподрядчиков и держать сроки даже на больших участках.
-      </p>
+<section class="section section--dark equipment" id="equipment">
+  <div class="container equipment__container">
+    <span class="equipment__ghost" aria-hidden="true">85</span>
 
-      <ul class="equipment__facts">
-        <li>Кабелеукладчики и тяговые машины</li>
-        <li>Оборудование для прокладки в грунт и ГНБ</li>
-        <li>Сварочные аппараты Fujikura и Sumitomo</li>
-        <li>Измерительные комплексы OTDR</li>
+    <header class="sec-head equipment__head">
+      <span class="sec-index" aria-hidden="true">04</span>
+      <div>
+        <p class="kicker kicker--light">Техника и база</p>
+        <h2>Своя техника, склад и мастерские</h2>
+        <p class="lead">
+          85 единиц специализированной техники и производственная база
+          позволяют не зависеть от субподрядчиков и держать сроки.
+        </p>
+      </div>
+    </header>
+
+    <div class="equipment__body">
+      <div class="equipment__copy">
+        <ul class="equipment__facts">
+          {facts.map((fact) => <li>{fact}</li>)}
+        </ul>
+        <a class="btn btn--light" href="#contacts">Обсудить проект</a>
+      </div>
+
+      <ul class="equipment__gallery">
+        {equipment.map((item, index) => (
+          <li class="equipment__item">
+            <div class="equipment__media">
+              <Image
+                src={images[index]}
+                alt={alts[index]}
+                widths={[480, 800, 1200]}
+                sizes="(max-width: 900px) 100vw, 32vw"
+                format="webp"
+                quality={70}
+                loading="lazy"
+              />
+            </div>
+            <div class="equipment__caption">
+              <span>{String(index + 1).padStart(2, '0')}</span>
+              <div>
+                <strong>{item.title}</strong>
+                <em>{item.text}</em>
+              </div>
+            </div>
+          </li>
+        ))}
       </ul>
-
-      <a class="btn btn--ink" href="#contacts">Обсудить проект</a>
     </div>
-
-    <ul class="equipment__gallery">
-      {equipmentPhotos.map((photo, index) => (
-        <li class="equipment__item">
-          <div class="equipment__media">
-            <Image
-              src={images[index]}
-              alt={alts[index]}
-              widths={[480, 800, 1200]}
-              sizes="(max-width: 900px) 100vw, 30vw"
-              format="webp"
-              quality={70}
-              loading="lazy"
-            />
-          </div>
-          <div class="equipment__caption">
-            <span class="equipment__num">{String(index + 1).padStart(2, '0')}</span>
-            <span>
-              <strong>{photo.title}</strong>
-              <span>{photo.text}</span>
-            </span>
-          </div>
-        </li>
-      ))}
-    </ul>
   </div>
 </section>
 
 <style>
   .equipment {
-    padding-block: clamp(4rem, 8vw, 7rem);
-    background: var(--paper-deep);
-    border-block: 1px solid var(--line);
+    position: relative;
+    overflow: hidden;
   }
 
-  .equipment__grid {
+  .equipment__container {
+    position: relative;
+    z-index: 1;
+  }
+
+  .equipment__ghost {
+    position: absolute;
+    right: -0.05em;
+    top: -0.35em;
+    z-index: 0;
+    color: transparent;
+    font-size: clamp(18rem, 34vw, 30rem);
+    font-weight: 700;
+    line-height: 0.8;
+    letter-spacing: -0.06em;
+    -webkit-text-stroke: 1px rgba(255, 255, 255, 0.07);
+    pointer-events: none;
+    user-select: none;
+  }
+
+  .equipment__head h2 {
+    max-width: 34rem;
+  }
+
+  .equipment__body {
     display: grid;
-    grid-template-columns: 0.85fr 1.15fr;
+    grid-template-columns: 0.62fr 1.38fr;
     gap: clamp(2rem, 5vw, 4.5rem);
     align-items: start;
   }
 
-  .equipment h2 {
-    margin-top: 1.1rem;
-    font-size: clamp(1.85rem, 3.4vw, 2.9rem);
-    font-weight: 600;
-    line-height: 1.08;
-    letter-spacing: -0.035em;
-    text-wrap: balance;
+  .equipment__copy {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2rem;
   }
 
   .equipment__facts {
     display: flex;
     flex-direction: column;
-    gap: 0.7rem;
-    margin-block: 1.8rem 2.2rem;
+    gap: 0.65rem;
+    width: 100%;
   }
 
   .equipment__facts li {
     position: relative;
-    padding-left: 1.4rem;
-    color: var(--ink-soft);
-    font-size: 0.95rem;
+    padding: 0.55rem 0 0.55rem 1.4rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--on-dark-muted);
+    font-size: 0.92rem;
   }
 
   .equipment__facts li::before {
     content: "";
     position: absolute;
     left: 0;
-    top: 0.62em;
-    width: 0.65rem;
-    height: 2px;
-    background: var(--accent);
+    top: 1.05em;
+    width: 0.55rem;
+    height: 0.55rem;
+    border: 1px solid var(--accent-bright);
+    transform: rotate(45deg);
   }
 
   .equipment__gallery {
@@ -117,8 +152,8 @@ const alts = [
 
   .equipment__media {
     overflow: hidden;
-    border-radius: var(--radius);
-    background: var(--paper);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    background: var(--navy-2);
   }
 
   .equipment__media :global(img) {
@@ -126,7 +161,7 @@ const alts = [
     height: 100%;
     aspect-ratio: 4 / 3;
     object-fit: cover;
-    transition: transform 0.6s var(--ease);
+    transition: transform 0.7s var(--ease);
   }
 
   .equipment__item:hover .equipment__media :global(img) {
@@ -135,41 +170,42 @@ const alts = [
 
   .equipment__caption {
     display: flex;
-    align-items: baseline;
-    gap: 0.6rem;
-    margin-top: 0.65rem;
-    font-size: 0.8rem;
+    gap: 0.65rem;
+    margin-top: 0.6rem;
+    font-size: 0.78rem;
     line-height: 1.4;
   }
 
-  .equipment__num {
-    color: var(--accent);
+  .equipment__caption > span {
+    color: var(--accent-bright);
     font-family: var(--font-mono);
-    font-size: 0.65rem;
-    letter-spacing: 0.08em;
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    padding-top: 0.15rem;
   }
 
   .equipment__caption strong {
     display: block;
+    color: var(--on-dark);
+    font-size: 0.86rem;
     font-weight: 600;
-    font-size: 0.85rem;
   }
 
-  .equipment__caption span span {
-    color: var(--muted);
-  }
-
-  .equipment__item:first-child .equipment__media :global(img) {
-    object-position: 64% 72%;
+  .equipment__caption em {
+    color: var(--on-dark-muted);
+    font-style: normal;
   }
 
   @media (max-width: 900px) {
-    .equipment__grid {
+    .equipment__body {
       grid-template-columns: 1fr;
+      gap: 2rem;
     }
+  }
 
-    .equipment__gallery {
-      order: -1;
+  @media (max-width: 720px) {
+    .equipment__ghost {
+      display: none;
     }
   }
 

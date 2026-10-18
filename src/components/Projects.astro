@@ -15,35 +15,54 @@ const alts = [
 
 <section class="section" id="projects">
   <div class="container">
-    <header class="section-head">
-      <p class="eyebrow">03 — Проекты</p>
-      <h2>Объекты, которые уже работают</h2>
-      <p class="lead">
-        Строим линии для операторов связи, инфраструктурных компаний и промышленных
-        площадок. Ниже — типовые проекты: от городской сети до магистрали.
-      </p>
+    <header class="sec-head">
+      <span class="sec-index" aria-hidden="true">03</span>
+      <div>
+        <p class="kicker">Проекты</p>
+        <h2>Маршруты, которые уже работают</h2>
+        <p class="lead">
+          Магистрали, внутризоновые линии и городские сети — от первой
+          колышки до паспорта объекта.
+        </p>
+      </div>
     </header>
 
-    <div class="projects">
+    <div class="cases">
       {projects.map((project, index) => (
-        <article class:list={['project', { 'project--lead': index === 0 }]}>
-          <div class="project__media">
+        <article class="case">
+          <div class="case__info">
+            <div class="case__top">
+              <span class="case__index">{String(index + 1).padStart(2, '0')}</span>
+              <span class="case__tag">{project.tag}</span>
+            </div>
+
+            <h3>{project.title}</h3>
+            <p>{project.text}</p>
+
+            <dl class="case__meta">
+              <div><dt>Регион</dt><dd>{project.region}</dd></div>
+              <div><dt>Работы</dt><dd>{project.scope}</dd></div>
+            </dl>
+          </div>
+
+          <figure class="case__media">
             <Image
               src={images[index]}
               alt={alts[index]}
               widths={[480, 800, 1200]}
-              sizes={index === 0 ? '(max-width: 900px) 100vw, 58vw' : '(max-width: 900px) 100vw, 46vw'}
+              sizes="(max-width: 900px) 100vw, 58vw"
               format="webp"
               quality={70}
               loading="lazy"
             />
-          </div>
-          <div class="project__body">
-            <span class="tag">{project.tag}</span>
-            <h3>{project.title}</h3>
-            <p>{project.text}</p>
-            <span class="project__meta">{project.meta}</span>
-          </div>
+            <figcaption>{project.region} · трасса</figcaption>
+
+            <svg class="case__route" viewBox="0 0 280 96" aria-hidden="true">
+              <path d={project.route} />
+              <circle cx="10" cy="62" r="3" />
+              <circle cx="268" cy="42" r="3" />
+            </svg>
+          </figure>
         </article>
       ))}
     </div>
@@ -51,101 +70,164 @@ const alts = [
 </section>
 
 <style>
-  .projects {
+  .cases {
+    border-top: 1px solid var(--line-strong);
+  }
+
+  .case {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: clamp(1rem, 2.2vw, 1.75rem);
+    grid-template-columns: 0.85fr 1.15fr;
+    gap: clamp(1.5rem, 4vw, 4rem);
+    align-items: center;
+    padding-block: clamp(1.75rem, 3.5vw, 3rem);
+    border-bottom: 1px solid var(--line);
   }
 
-  .project {
+  .case:nth-child(even) .case__media {
+    order: -1;
+  }
+
+  .case__top {
     display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    border: 1px solid var(--line);
-    border-radius: var(--radius);
-    background: var(--surface);
+    align-items: center;
+    gap: 0.8rem;
   }
 
-  .project--lead {
-    grid-column: 1 / -1;
-    display: grid;
-    grid-template-columns: 1.15fr 0.85fr;
-  }
-
-  .project__media {
-    position: relative;
-    overflow: hidden;
-    background: var(--paper-deep);
-  }
-
-  .project__media :global(img) {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    aspect-ratio: 4 / 3;
-    transition: transform 0.6s var(--ease);
-  }
-
-  .project--lead .project__media :global(img) {
-    aspect-ratio: 16 / 10;
-  }
-
-  .project:hover .project__media :global(img) {
-    transform: scale(1.03);
-  }
-
-  .project__body {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    padding: clamp(1.4rem, 2.4vw, 2.4rem);
-  }
-
-  .project__body h3 {
-    margin-top: 1.1rem;
-    font-size: clamp(1.25rem, 2vw, 1.7rem);
-    font-weight: 600;
-    line-height: 1.2;
-    letter-spacing: -0.025em;
-  }
-
-  .project__body p {
-    margin-top: 0.8rem;
-    color: var(--muted);
-    font-size: 0.95rem;
-    line-height: 1.6;
-  }
-
-  .project__meta {
-    margin-top: auto;
-    padding-top: 1.5rem;
+  .case__index {
     color: var(--muted);
     font-family: var(--font-mono);
-    font-size: 0.68rem;
-    letter-spacing: 0.08em;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+  }
+
+  .case__tag {
+    padding: 0.25rem 0.55rem;
+    border: 1px solid var(--line-strong);
+    border-radius: 999px;
+    color: var(--ink-2);
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
   }
 
-  .project--lead .project__body {
-    justify-content: center;
-    padding: clamp(1.75rem, 3.2vw, 3.25rem);
+  .case h3 {
+    margin-top: 1rem;
+    max-width: 20rem;
+    font-size: clamp(1.35rem, 2.2vw, 1.85rem);
+    font-weight: 600;
+    line-height: 1.15;
+    letter-spacing: -0.03em;
   }
 
-  .project--lead .project__meta {
-    margin-top: 2rem;
+  .case p {
+    margin-top: 0.8rem;
+    max-width: 26rem;
+    color: var(--muted);
+    font-size: 0.95rem;
+    line-height: 1.65;
+  }
+
+  .case__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem 2.5rem;
+    margin-top: 1.5rem;
+  }
+
+  .case__meta dt {
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .case__meta dd {
+    margin-top: 0.25rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+  }
+
+  .case__media {
+    position: relative;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    background: var(--paper-2);
+  }
+
+  .case__media :global(img) {
+    width: 100%;
+    height: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    transition: transform 0.8s var(--ease);
+  }
+
+  .case:hover .case__media :global(img) {
+    transform: scale(1.025);
+  }
+
+  .case__media::after {
+    content: "";
+    position: absolute;
+    inset: auto 0 0 0;
+    height: 38%;
+    background: linear-gradient(to top, rgba(6, 26, 36, 0.62), transparent);
+    pointer-events: none;
+  }
+
+  .case__media figcaption {
+    z-index: 2;
+    position: absolute;
+    top: 0.85rem;
+    left: 0.85rem;
+    padding: 0.28rem 0.55rem;
+    border-radius: 2px;
+    background: rgba(6, 26, 36, 0.82);
+    color: var(--on-dark);
+    font-family: var(--font-mono);
+    font-size: 0.58rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .case__route {
+    z-index: 1;
+    position: absolute;
+    left: 0.85rem;
+    bottom: 0.7rem;
+    width: min(46%, 15rem);
+    height: auto;
+    overflow: visible;
+  }
+
+  .case__route path {
+    fill: none;
+    stroke: rgba(255, 255, 255, 0.9);
+    stroke-width: 1.4;
+    stroke-dasharray: 5 6;
+  }
+
+  .case__route circle {
+    fill: var(--accent-bright);
+    stroke: rgba(6, 26, 36, 0.6);
+    stroke-width: 1;
   }
 
   @media (max-width: 900px) {
-    .projects {
+    .case {
       grid-template-columns: 1fr;
+      gap: 1.25rem;
     }
 
-    .project--lead {
-      grid-template-columns: 1fr;
+    .case:nth-child(even) .case__media {
+      order: 0;
     }
 
-    .project--lead .project__media :global(img) {
-      aspect-ratio: 4 / 3;
+    .case h3,
+    .case p {
+      max-width: none;
     }
   }
 </style>

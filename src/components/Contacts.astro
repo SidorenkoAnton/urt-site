@@ -2,14 +2,14 @@
 import { site } from '../data/site';
 ---
 
-<section class="contacts" id="contacts">
+<section class="section section--dark contacts" id="contacts">
   <div class="container contacts__grid">
     <div class="contacts__lead">
-      <p class="eyebrow eyebrow--light">06 — Контакты</p>
-      <h2>Обсудим ваш проект</h2>
+      <p class="kicker kicker--light">06 — Контакты</p>
+      <h2>Обсудим вашу трассу</h2>
       <p>
-        Расскажите о задаче — предложим техническое решение и оценим объём работ.
-        Отвечаем в рабочее время, по крупным объектам выезжаем на встречу.
+        Расскажите о задаче — предложим техническое решение и оценим объём
+        работ. По крупным объектам выезжаем на встречу.
       </p>
     </div>
 
@@ -20,7 +20,7 @@ import { site } from '../data/site';
 
       <div class="contacts__actions">
         <a class="btn btn--accent" href={site.phoneHref}>Позвонить</a>
-        <a class="btn contacts__ghost" href={site.emailHref}>Написать на почту</a>
+        <a class="btn btn--ghost-light" href={site.emailHref}>Написать на почту</a>
       </div>
     </div>
   </div>
@@ -28,9 +28,12 @@ import { site } from '../data/site';
 
 <style>
   .contacts {
+    position: relative;
     padding-block: clamp(4rem, 8vw, 7rem);
-    background: var(--navy);
-    color: var(--on-dark);
+    background:
+      radial-gradient(80% 120% at 100% 0%, rgba(111, 211, 234, 0.09) 0%, transparent 55%),
+      var(--navy);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
   }
 
   .contacts__grid {
@@ -41,82 +44,87 @@ import { site } from '../data/site';
   }
 
   .contacts h2 {
-    margin-top: 1.1rem;
-    font-size: clamp(2rem, 4vw, 3.4rem);
+    margin-top: 1rem;
+    font-size: clamp(2rem, 4vw, 3.3rem);
     font-weight: 600;
     line-height: 1.05;
     letter-spacing: -0.035em;
+    color: var(--on-dark);
   }
 
   .contacts__lead p:last-child {
-    margin-top: 1.25rem;
-    max-width: 30rem;
+    margin-top: 1.2rem;
+    max-width: 28rem;
     color: var(--on-dark-muted);
-    font-size: 1rem;
     line-height: 1.65;
   }
 
   .contacts__card {
-    padding-top: 0.4rem;
+    padding-left: clamp(0rem, 3vw, 3rem);
+    border-left: 1px solid rgba(255, 255, 255, 0.14);
   }
 
   .contacts__phone {
     display: inline-block;
-    font-size: clamp(1.6rem, 3.2vw, 2.6rem);
+    font-size: clamp(1.7rem, 3.4vw, 2.8rem);
     font-weight: 600;
-    line-height: 1.1;
+    line-height: 1.05;
     letter-spacing: -0.03em;
+    color: var(--on-dark);
     font-variant-numeric: tabular-nums;
     transition: color 0.2s var(--ease);
   }
 
   .contacts__phone:hover {
-    color: #e9a58c;
+    color: var(--accent-bright);
   }
 
   .contacts__mail {
     display: inline-block;
-    margin-top: 0.9rem;
+    margin-top: 0.8rem;
     color: var(--on-dark);
     font-size: 1.05rem;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.35);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
     transition: border-color 0.2s var(--ease);
   }
 
   .contacts__mail:hover {
-    border-color: var(--accent);
+    border-color: var(--accent-bright);
   }
 
   .contacts__hours {
-    margin-top: 1rem;
+    margin-top: 0.9rem;
     color: var(--on-dark-muted);
     font-family: var(--font-mono);
-    font-size: 0.72rem;
-    letter-spacing: 0.08em;
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
   }
 
   .contacts__actions {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.75rem;
-    margin-top: 2rem;
-  }
-
-  .contacts__ghost {
-    border-color: rgba(255, 255, 255, 0.3);
-    color: var(--on-dark);
-  }
-
-  .contacts__ghost:hover {
-    border-color: rgba(255, 255, 255, 0.65);
-    background: rgba(255, 255, 255, 0.05);
+    gap: 0.7rem;
+    margin-top: 1.8rem;
   }
 
   @media (max-width: 820px) {
     .contacts__grid {
       grid-template-columns: 1fr;
-      gap: 2.25rem;
+      gap: 2rem;
+    }
+
+    .contacts__card {
+      padding-left: 0;
+      padding-top: 1.5rem;
+      border-left: 0;
+      border-top: 1px solid rgba(255, 255, 255, 0.14);
+    }
+  }
+
+  @media (max-width: 480px) {
+    .contacts__actions .btn {
+      flex: 1 1 100%;
     }
   }
 </style>

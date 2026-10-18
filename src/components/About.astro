@@ -1,59 +1,110 @@
 ---
 import { site } from '../data/site';
+
+const specs = [
+  ['Профиль', 'Строительство и проектирование ВОЛС'],
+  ['Допуск', 'СРО · работы по всей России'],
+  ['Техника', '85 единиц в собственном парке'],
+  ['Команда', 'Инженеры, монтажники, сварщики оптики'],
+];
 ---
 
-<section class="section section--tight" id="about">
+<section class="section about" id="about">
   <div class="container">
-    <p class="eyebrow">01 — О компании</p>
+    <header class="sec-head">
+      <span class="sec-index" aria-hidden="true">01</span>
+      <div>
+        <p class="kicker">О компании</p>
+        <h2>Инженерная компания, а не посредник</h2>
+        <p class="lead">
+          {site.name} проектирует и строит оптические линии связи более 12 лет.
+          Всё делаем сами: изыскания, проект, земляные работы, монтаж и измерения.
+        </p>
+      </div>
+    </header>
 
-    <p class="about__lead">
-      {site.name} — подрядчик по строительству волоконно-оптических линий связи.
-      Проектируем, строим и сдаём объекты под ключ: от изысканий и согласований
-      до измерений и паспортизации.
-    </p>
+    <div class="about__body">
+      <div class="about__text">
+        <p>
+          В штате — инженеры-проектировщики, монтажники и сварщики оптики.
+          Собственный парк техники и производственная база позволяют выполнять
+          работы без субподряда и держать сроки на больших участках.
+        </p>
+        <p>
+          Работаем с операторами связи, инфраструктурными и промышленными
+          компаниями по всей России. Каждый объект сдаём с полным пакетом
+          исполнительной документации и гарантией на линию.
+        </p>
+      </div>
 
-    <div class="about__cols">
-      <p>
-        В штате — инженеры-проектировщики, монтажники и сварщики оптики.
-        Собственный парк техники и производственная база позволяют выполнять
-        работы без субподряда и держать сроки на больших участках.
-      </p>
-      <p>
-        Работаем с операторами связи, инфраструктурными и промышленными компаниями
-        по всей России. Допуск СРО, гарантия на построенные линии и полный пакет
-        исполнительной документации.
-      </p>
+      <dl class="spec">
+        {specs.map(([term, value]) => (
+          <div class="spec__row">
+            <dt>{term}</dt>
+            <dd>{value}</dd>
+          </div>
+        ))}
+      </dl>
     </div>
   </div>
 </section>
 
 <style>
-  .about__lead {
-    max-width: 60rem;
-    margin-top: 1.4rem;
-    font-size: clamp(1.45rem, 2.7vw, 2.15rem);
-    font-weight: 500;
-    line-height: 1.32;
-    letter-spacing: -0.025em;
-    text-wrap: balance;
-  }
-
-  .about__cols {
+  .about__body {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: clamp(1.5rem, 4vw, 3.5rem);
-    margin-top: clamp(2rem, 4vw, 3rem);
-    padding-top: 1.75rem;
-    border-top: 1px solid var(--line);
-    color: var(--muted);
-    font-size: 0.98rem;
-    line-height: 1.65;
+    gap: clamp(2rem, 5vw, 5rem);
+    align-items: start;
   }
 
-  @media (max-width: 720px) {
-    .about__cols {
+  .about__text {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    max-width: 33rem;
+    color: var(--muted);
+    font-size: 1rem;
+    line-height: 1.7;
+  }
+
+  .spec {
+    border-top: 1px solid var(--line);
+  }
+
+  .spec__row {
+    display: grid;
+    grid-template-columns: 9rem 1fr;
+    gap: 1rem;
+    padding-block: 0.95rem;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .spec__row dt {
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding-top: 0.2rem;
+  }
+
+  .spec__row dd {
+    color: var(--ink);
+    font-size: 0.98rem;
+    font-weight: 500;
+  }
+
+  @media (max-width: 820px) {
+    .about__body {
       grid-template-columns: 1fr;
-      gap: 1rem;
+      gap: 2rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .spec__row {
+      grid-template-columns: 1fr;
+      gap: 0.25rem;
     }
   }
 </style>
