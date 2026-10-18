@@ -26,7 +26,6 @@ import Logo from './Logo.astro'
             --text-primary: #f8fafc;
             --text-secondary: #94a3b8;
             --text-muted: #64748b;
-            --accent-glow: rgba(0, 78, 166, 0.15);
             --accent-blue: #004ea6;
             --accent-cyan: #4aace1;
             --nav-height: 4.5rem;
@@ -666,10 +665,6 @@ import Logo from './Logo.astro'
         }
 
         @media (max-width: 768px) {
-            :root {
-                --nav-height: 4rem;
-            }
-
             .nav-links { display: none; }
             .desktop-phone { display: none; }
             
@@ -682,11 +677,9 @@ import Logo from './Logo.astro'
             }
             
             .hero { 
-                padding-top: calc(var(--nav-height) + 1.5rem);
-                padding-bottom: 2rem;
-                min-height: 100dvh;
-                align-items: flex-start;
                 padding-top: 30vh;
+                padding-bottom: 2rem;
+                align-items: flex-start;
             }
             
             .hero-content { margin: 0 auto; text-align: center; }
