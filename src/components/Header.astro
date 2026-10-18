@@ -102,25 +102,12 @@ import Logo from '../layouts/Logo.astro';
   .brand {
     display: flex;
     align-items: center;
-    gap: 0.65rem;
     flex: none;
   }
 
-  .brand__mark {
-    display: flex;
-    height: 2.1rem;
-  }
-
-  .brand__mark :global(svg) {
-    height: 100%;
+  .brand :global(svg) {
+    height: clamp(2.6rem, 3.4vw, 3.15rem);
     width: auto;
-  }
-
-  .brand__text {
-    font-size: 0.79rem;
-    font-weight: 600;
-    letter-spacing: 0.15em;
-    line-height: 1;
   }
 
   .nav {
@@ -291,13 +278,8 @@ import Logo from '../layouts/Logo.astro';
       font-size: 0.8rem;
     }
 
-    .brand__mark {
-      height: 1.85rem;
-    }
-
-    .brand__text {
-      font-size: 0.7rem;
-      letter-spacing: 0.11em;
+    .brand :global(svg) {
+      height: 2.55rem;
     }
   }
 
