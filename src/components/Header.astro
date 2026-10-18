@@ -1,5 +1,4 @@
 ---
-import LogoMark from './LogoMark.astro';
 import { site, navigation } from '../data/site';
 import Logo from '../layouts/Logo.astro';
 ---
@@ -7,9 +6,7 @@ import Logo from '../layouts/Logo.astro';
 <header class="header" data-header>
   <div class="container header__inner">
     <a class="brand" href="/" aria-label={`${site.name} — на главную`}>
-      <Logo/>
-      <!-- <span class="brand__mark"><LogoMark /></span>
-      <span class="brand__text">{site.name}</span> -->
+      <Logo />
     </a>
 
     <nav class="nav" aria-label="Основная навигация">
@@ -90,8 +87,7 @@ import Logo from '../layouts/Logo.astro';
     position: sticky;
     top: 0;
     z-index: 70;
-    background: rgba(6, 26, 36, 0.94);
-    backdrop-filter: blur(12px);
+    background: var(--navy);
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     color: var(--on-dark);
   }
