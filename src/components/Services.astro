@@ -1,0 +1,80 @@
+---
+import { services } from '../data/site';
+---
+
+<section class="section" id="services">
+  <div class="container">
+    <header class="section-head">
+      <p class="eyebrow">02 — Услуги</p>
+      <h2>Полный цикл: от изысканий до сдачи</h2>
+      <p class="lead">
+        Выполняем весь комплекс работ по линии связи — проектирование, строительство,
+        монтаж и измерения. Заказчик получает один договор и одного ответственного подрядчика.
+      </p>
+    </header>
+
+    <ul class="services">
+      {services.map((service, index) => (
+        <li class="service">
+          <span class="service__num">{String(index + 1).padStart(2, '0')}</span>
+          <h3>{service.title}</h3>
+          <p>{service.text}</p>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .services {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border-top: 1px solid var(--line);
+    border-left: 1px solid var(--line);
+  }
+
+  .service {
+    padding: clamp(1.6rem, 2.4vw, 2.2rem);
+    border-right: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    transition: background-color 0.25s var(--ease);
+  }
+
+  .service:hover {
+    background: var(--surface);
+  }
+
+  .service__num {
+    color: var(--accent);
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+  }
+
+  .service h3 {
+    margin-top: 1.5rem;
+    font-size: 1.2rem;
+    font-weight: 600;
+    line-height: 1.25;
+    letter-spacing: -0.02em;
+  }
+
+  .service p {
+    margin-top: 0.6rem;
+    color: var(--muted);
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+
+  @media (max-width: 960px) {
+    .services {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 620px) {
+    .services {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

@@ -1,0 +1,88 @@
+---
+const metrics = [
+  { value: '4 500', unit: 'км', label: 'построенных ВОЛС' },
+  { value: '12', unit: 'лет', label: 'на рынке' },
+  { value: '85', unit: 'ед.', label: 'техники в парке' },
+  { value: '100', unit: '%', label: 'сдача с первого раза' },
+];
+---
+
+<section class="metrics" aria-label="Компания в цифрах">
+  <div class="container metrics__grid">
+    {metrics.map((metric) => (
+      <div class="metric">
+        <span class="metric__value">{metric.value}<span class="metric__unit">{metric.unit}</span></span>
+        <span class="metric__label">{metric.label}</span>
+      </div>
+    ))}
+  </div>
+</section>
+
+<style>
+  .metrics {
+    border-block: 1px solid var(--line);
+    background: var(--surface);
+  }
+
+  .metrics__grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .metric {
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+    padding: clamp(1.5rem, 2.6vw, 2.4rem) clamp(1rem, 2.4vw, 2rem);
+    border-left: 1px solid var(--line);
+  }
+
+  .metric:first-child {
+    border-left: 0;
+    padding-left: 0;
+  }
+
+  .metric__value {
+    font-size: clamp(2rem, 3.6vw, 3.1rem);
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: -0.04em;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .metric__unit {
+    margin-left: 0.35rem;
+    color: var(--muted);
+    font-size: 0.42em;
+    font-weight: 500;
+    letter-spacing: 0;
+  }
+
+  .metric__label {
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  @media (max-width: 720px) {
+    .metrics__grid {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .metric {
+      border-top: 1px solid var(--line);
+      padding: 1.35rem 1rem;
+    }
+
+    .metric:nth-child(-n + 2) {
+      border-top: 0;
+    }
+
+    .metric:nth-child(odd) {
+      border-left: 0;
+      padding-left: 0;
+    }
+  }
+</style>

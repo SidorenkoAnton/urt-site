@@ -1,0 +1,151 @@
+---
+import { Image } from 'astro:assets';
+import { projects } from '../data/site';
+import cable from '../assets/cable.jpg';
+import svarka from '../assets/svarka.jpg';
+import factory from '../assets/factory.jpg';
+
+const images = [cable, svarka, factory];
+const alts = [
+  'Кабелеукладочная техника на магистральном участке',
+  'Сварка оптического волокна на объекте',
+  'Производственная база и склад компании',
+];
+---
+
+<section class="section" id="projects">
+  <div class="container">
+    <header class="section-head">
+      <p class="eyebrow">03 — Проекты</p>
+      <h2>Объекты, которые уже работают</h2>
+      <p class="lead">
+        Строим линии для операторов связи, инфраструктурных компаний и промышленных
+        площадок. Ниже — типовые проекты: от городской сети до магистрали.
+      </p>
+    </header>
+
+    <div class="projects">
+      {projects.map((project, index) => (
+        <article class:list={['project', { 'project--lead': index === 0 }]}>
+          <div class="project__media">
+            <Image
+              src={images[index]}
+              alt={alts[index]}
+              widths={[480, 800, 1200]}
+              sizes={index === 0 ? '(max-width: 900px) 100vw, 58vw' : '(max-width: 900px) 100vw, 46vw'}
+              format="webp"
+              quality={70}
+              loading="lazy"
+            />
+          </div>
+          <div class="project__body">
+            <span class="tag">{project.tag}</span>
+            <h3>{project.title}</h3>
+            <p>{project.text}</p>
+            <span class="project__meta">{project.meta}</span>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .projects {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(1rem, 2.2vw, 1.75rem);
+  }
+
+  .project {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--surface);
+  }
+
+  .project--lead {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+  }
+
+  .project__media {
+    position: relative;
+    overflow: hidden;
+    background: var(--paper-deep);
+  }
+
+  .project__media :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    aspect-ratio: 4 / 3;
+    transition: transform 0.6s var(--ease);
+  }
+
+  .project--lead .project__media :global(img) {
+    aspect-ratio: 16 / 10;
+  }
+
+  .project:hover .project__media :global(img) {
+    transform: scale(1.03);
+  }
+
+  .project__body {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: clamp(1.4rem, 2.4vw, 2.4rem);
+  }
+
+  .project__body h3 {
+    margin-top: 1.1rem;
+    font-size: clamp(1.25rem, 2vw, 1.7rem);
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: -0.025em;
+  }
+
+  .project__body p {
+    margin-top: 0.8rem;
+    color: var(--muted);
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+
+  .project__meta {
+    margin-top: auto;
+    padding-top: 1.5rem;
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .project--lead .project__body {
+    justify-content: center;
+    padding: clamp(1.75rem, 3.2vw, 3.25rem);
+  }
+
+  .project--lead .project__meta {
+    margin-top: 2rem;
+  }
+
+  @media (max-width: 900px) {
+    .projects {
+      grid-template-columns: 1fr;
+    }
+
+    .project--lead {
+      grid-template-columns: 1fr;
+    }
+
+    .project--lead .project__media :global(img) {
+      aspect-ratio: 4 / 3;
+    }
+  }
+</style>

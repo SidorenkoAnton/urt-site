@@ -1,0 +1,148 @@
+---
+import LogoMark from './LogoMark.astro';
+import { site, navigation } from '../data/site';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer__top">
+      <div class="footer__brand">
+        <span class="footer__logo">
+          <LogoMark />
+          <span>{site.name}</span>
+        </span>
+        <span class="footer__tagline">Строительство волоконно-оптических линий связи под ключ</span>
+      </div>
+
+      <nav class="footer__nav" aria-label="Навигация в подвале">
+        <ul>
+          {navigation.map((item) => (
+            <li><a href={item.href}>{item.label}</a></li>
+          ))}
+        </ul>
+      </nav>
+
+      <div class="footer__contacts">
+        <a href={site.phoneHref}>{site.phoneLabel}</a>
+        <a href={site.emailHref}>{site.email}</a>
+        <span>{site.hours}</span>
+      </div>
+    </div>
+
+    <div class="footer__bottom">
+      <span>© {year} {site.name}. Все права защищены.</span>
+      <span>Информация на сайте не является публичной офертой.</span>
+      <a class="footer__up" href="#main">Наверх ↑</a>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    padding-block: clamp(2.5rem, 5vw, 4rem) 1.75rem;
+    background: var(--navy);
+    color: var(--on-dark);
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+  }
+
+  .footer__top {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr 0.8fr;
+    gap: 2rem;
+  }
+
+  .footer__brand {
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+    max-width: 22rem;
+  }
+
+  .footer__logo {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  .footer__logo :global(svg) {
+    height: 2rem;
+    width: auto;
+  }
+
+  .footer__logo span {
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+  }
+
+  .footer__tagline {
+    color: var(--on-dark-muted);
+    font-size: 0.85rem;
+    line-height: 1.5;
+  }
+
+  .footer__nav ul {
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+  }
+
+  .footer__nav a,
+  .footer__contacts a {
+    color: var(--on-dark);
+    font-size: 0.9rem;
+  }
+
+  .footer__nav a:hover,
+  .footer__contacts a:hover {
+    color: #e9a58c;
+  }
+
+  .footer__contacts {
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+    align-items: flex-start;
+  }
+
+  .footer__contacts span {
+    color: var(--on-dark-muted);
+    font-size: 0.8rem;
+  }
+
+  .footer__bottom {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.6rem 1.5rem;
+    margin-top: clamp(2.5rem, 5vw, 4rem);
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+    color: var(--on-dark-muted);
+    font-size: 0.75rem;
+  }
+
+  .footer__up {
+    color: var(--on-dark);
+  }
+
+  @media (max-width: 820px) {
+    .footer__top {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .footer__brand {
+      grid-column: 1 / -1;
+      max-width: none;
+    }
+  }
+
+  @media (max-width: 520px) {
+    .footer__top {
+      grid-template-columns: 1fr;
+      gap: 1.75rem;
+    }
+  }
+</style>
